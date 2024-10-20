@@ -290,3 +290,18 @@
               maxThrowRange: 3
               maxThrowStrength: 5
               spaceRange: 3
+
+- type: entity
+  id: ActionPotentiometry
+  name: action-name-potentiometry
+  descrption: action-descrption-potentiometry
+  noSpawn: true
+  components:
+  - type: EntityTargetAction
+    icon: Interface/VerbIcons/metapsionic.png
+    useDelay: 45
+    checkCanAccess: true
+    range: 3
+    itemIconStyle: BigAction
+    canTargetSelf: true
+    event: !type:PotentiometryPowerActionEvent
