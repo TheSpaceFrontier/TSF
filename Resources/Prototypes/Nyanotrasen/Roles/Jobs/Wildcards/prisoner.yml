@@ -10,9 +10,13 @@
   icon: "JobIconPrisoner"
   supervisors: job-supervisors-security
   requirements:
-    - !type:DepartmentTimeRequirement
+    - !type:CharacterDepartmentTimeRequirement
       department: Security
       min: 21600
+  special:
+  - !type:AddComponentSpecial
+    components:
+      - type: Pacified
 
 - type: startingGear
   id: PrisonerGear

@@ -1,6 +1,8 @@
 using Content.Shared.Abilities.Psionics;
 using Content.Shared.StatusEffect;
+using Content.Shared.Psionics;
 using Content.Shared.Psionics.Glimmer;
+using Content.Shared.Random;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Damage.Events;
 using Content.Shared.CCVar;
@@ -16,7 +18,14 @@ using Content.Shared.Chat;
 using Robust.Server.Player;
 using Content.Server.Chat.Managers;
 using Robust.Shared.Prototypes;
-using Content.Shared.Psionics;
+using Content.Shared.Mobs;
+using Content.Shared.Damage;
+using Content.Shared.Interaction.Events;
+using Timer = Robust.Shared.Timing.Timer;
+using Content.Shared.Alert;
+using Content.Shared.NPC.Components;
+using Content.Shared.NPC.Systems;
+using Content.Shared.Rounding;
 
 namespace Content.Server.Psionics;
 
@@ -35,6 +44,9 @@ public sealed class PsionicsSystem : EntitySystem
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPrototypeManager _protoMan = default!;
+    [Dependency] private readonly PsionicFamiliarSystem _psionicFamiliar = default!;
+    [Dependency] private readonly NPCRetaliationSystem _retaliationSystem = default!;
+    [Dependency] private readonly AlertsSystem _alerts = default!;
 
     private const string BaselineAmplification = "Baseline Amplification";
     private const string BaselineDampening = "Baseline Dampening";
@@ -54,6 +66,9 @@ public sealed class PsionicsSystem : EntitySystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+        if (!_cfg.GetCVar(CCVars.PsionicRollsEnabled))
+            return;
+
         foreach (var roller in _rollers)
             RollPsionics(roller.uid, roller.component, true);
         _rollers.Clear();
@@ -64,6 +79,9 @@ public sealed class PsionicsSystem : EntitySystem
         SubscribeLocalEvent<PsionicComponent, MapInitEvent>(OnStartup);
         SubscribeLocalEvent<AntiPsionicWeaponComponent, MeleeHitEvent>(OnMeleeHit);
         SubscribeLocalEvent<AntiPsionicWeaponComponent, TakeStaminaDamageEvent>(OnStamHit);
+        SubscribeLocalEvent<PsionicComponent, MobStateChangedEvent>(OnMobstateChanged);
+        SubscribeLocalEvent<PsionicComponent, DamageChangedEvent>(OnDamageChanged);
+        SubscribeLocalEvent<PsionicComponent, AttackAttemptEvent>(OnAttackAttempt);
 
         SubscribeLocalEvent<PsionicComponent, ComponentStartup>(OnInit);
         SubscribeLocalEvent<PsionicComponent, ComponentRemove>(OnRemove);
@@ -75,7 +93,22 @@ public sealed class PsionicsSystem : EntitySystem
             || !component.CanReroll)
             return;
 
+        Timer.Spawn(TimeSpan.FromSeconds(30), () => DeferRollers(uid));
+
+    }
+
+    /// <summary>
+    ///     We wait a short time before starting up the rolled powers, so that other systems have a chance to modify the list first.
+    ///     This is primarily for the sake of TraitSystem and AddJobSpecial.
+    /// </summary>
+    private void DeferRollers(EntityUid uid)
+    {
+        if (!Exists(uid)
+            || !TryComp(uid, out PsionicComponent? component))
+            return;
+
         CheckPowerCost(uid, component);
+        GenerateAvailablePowers(component);
         _rollers.Enqueue((component, uid));
     }
 
@@ -94,6 +127,24 @@ public sealed class PsionicsSystem : EntitySystem
                 powerCount += power.PowerSlotCost;
 
         component.NextPowerCost = 100 * MathF.Pow(2, powerCount);
+    }
+
+    /// <summary>
+    ///     The power pool is itself a DataField, and things like Traits/Antags are allowed to modify or replace the pool.
+    /// </summary>
+    private void GenerateAvailablePowers(PsionicComponent component)
+    {
+        if (!_protoMan.TryIndex<WeightedRandomPrototype>(component.PowerPool.Id, out var pool))
+            return;
+
+        foreach (var id in pool.Weights)
+        {
+            if (!_protoMan.TryIndex<PsionicPowerPrototype>(id.Key, out var power)
+                || component.ActivePowers.Contains(power))
+                continue;
+
+            component.AvailablePowers.Add(id.Key, id.Value);
+        }
     }
 
     private void OnMeleeHit(EntityUid uid, AntiPsionicWeaponComponent component, MeleeHitEvent args)
@@ -173,7 +224,7 @@ public sealed class PsionicsSystem : EntitySystem
 
         component.Potentia -= component.NextPowerCost;
         _psionicAbilitiesSystem.AddPsionics(uid);
-        component.NextPowerCost = 100 * MathF.Pow(2, component.PowerSlotsTaken);
+        component.NextPowerCost = component.BaselinePowerCost * MathF.Pow(2, component.PowerSlotsTaken);
         return true;
     }
 
@@ -218,9 +269,8 @@ public sealed class PsionicsSystem : EntitySystem
             + _random.NextFloat(0, 100);
 
         // Increase the initial odds based on Glimmer.
-        // TODO: Change this equation when I do my Glimmer Refactor
         baselineChance += applyGlimmer
-            ? (float) _glimmerSystem.Glimmer / 1000 //Convert from Glimmer to %chance
+            ? _glimmerSystem.GetGlimmerEquilibriumRatio() * 25
             : 0;
 
         // Certain sources of power rolls provide their own multiplier.
@@ -249,5 +299,60 @@ public sealed class PsionicsSystem : EntitySystem
 
         RollPsionics(uid, psionic, true, bonusMuliplier);
         psionic.CanReroll = false;
+    }
+
+    private void OnMobstateChanged(EntityUid uid, PsionicComponent component, MobStateChangedEvent args)
+    {
+        if (component.Familiars.Count <= 0
+            || args.NewMobState != MobState.Dead)
+            return;
+
+        foreach (var familiar in component.Familiars)
+        {
+            if (!TryComp<PsionicFamiliarComponent>(familiar, out var familiarComponent)
+                || !familiarComponent.DespawnOnMasterDeath)
+                continue;
+
+            _psionicFamiliar.DespawnFamiliar(familiar, familiarComponent);
+        }
+    }
+
+    /// <summary>
+    ///     When a caster with active summons is attacked, aggro their familiars to the attacker.
+    /// </summary>
+    private void OnDamageChanged(EntityUid uid, PsionicComponent component, DamageChangedEvent args)
+    {
+        if (component.Familiars.Count <= 0
+            || !args.DamageIncreased
+            || args.Origin is not { } origin
+            || origin == uid)
+            return;
+
+        SetFamiliarTarget(origin, component);
+    }
+
+    /// <summary>
+    ///     When a caster with active summons attempts to attack something, aggro their familiars to the target.
+    /// </summary>
+    private void OnAttackAttempt(EntityUid uid, PsionicComponent component, AttackAttemptEvent args)
+    {
+        if (component.Familiars.Count <= 0
+            || args.Target == uid
+            || args.Target is not { } target
+            || component.Familiars.Contains(target))
+            return;
+
+        SetFamiliarTarget(target, component);
+    }
+
+    private void SetFamiliarTarget(EntityUid target, PsionicComponent component)
+    {
+        foreach (var familiar in component.Familiars)
+        {
+            if (!TryComp<NPCRetaliationComponent>(familiar, out var retaliationComponent))
+                continue;
+
+            _retaliationSystem.TryRetaliate((familiar, retaliationComponent), target);
+        }
     }
 }
