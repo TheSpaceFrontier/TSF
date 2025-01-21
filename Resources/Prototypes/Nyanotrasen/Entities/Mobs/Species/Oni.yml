@@ -6,6 +6,7 @@
   components:
   - type: Speech
     speechSounds: Baritone
+    speechVerb: Oni
   - type: HumanoidAppearance
     species: Oni
   - type: Sprite
@@ -26,7 +27,7 @@
       fix1:
         shape:
           !type:PhysShapeCircle
-          radius: 0.42
+          radius: 0.35
         density: 220
         restitution: 0.0
         mask:
@@ -35,11 +36,23 @@
         - MobLayer
   - type: Stamina
     critThreshold: 115
+    decay: 3.45 # 3 base decay multiplied by 1.15 = 3.45
+  - type: TypingIndicator
+    proto: oni
+  - type: LanguageKnowledge
+    speaks:
+    - TauCetiBasic
+    - Nekomimetic
+    understands:
+    - TauCetiBasic
+    - Nekomimetic
+  - type: PotentiaModifier
+    potentiaMultiplier: 0.5
 
 - type: entity
   save: false
   name: Urist McOni
   parent: MobHumanDummy
   id: MobOniDummy
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   description: A dummy oni meant to be used in character setup.

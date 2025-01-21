@@ -34,6 +34,8 @@
   - type: Sprite
     sprite: Mobs/Species/Arachnid/organs.rsi
     state: stomach
+  - type: Organ # Shitmed
+    slotId: stomach
   - type: Stomach
     updateInterval: 1.5
   - type: SolutionContainerManager
@@ -46,7 +48,7 @@
         - ReagentId: UncookedAnimalProteins
           Quantity: 5
   - type: Metabolizer
-    updateFrequency: 1.5
+    updateInterval: 1.5
 
 - type: entity
   id: OrganArachnidLungs
@@ -58,9 +60,11 @@
     layers:
       - state: lung-l
       - state: lung-r
+  - type: Organ # Shitmed
+    slotId: lungs
   - type: Lung
   - type: Metabolizer
-    updateFrequency: 1.5
+    updateInterval: 1.5
     removeEmpty: true
     solutionOnBody: false
     solution: "Lung"
@@ -92,45 +96,53 @@
   - type: Sprite
     state: heart-on
   - type: Metabolizer
-    updateFrequency: 1.5
+    updateInterval: 1.5
     maxReagents: 2
     metabolizerTypes: [Arachnid]
     groups:
     - id: Medicine
     - id: Poison
     - id: Narcotic
+  - type: Organ # Shitmed
+    slotId: heart
+  - type: Heart # Shitmed: Lets you transplant spider hearts into other species
 
 - type: entity
   id: OrganArachnidLiver
   parent: BaseHumanOrgan
   name: liver
   description: "Pairing suggestion: chianti and fava beans."
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     state: liver
   - type: Metabolizer # The liver metabolizes certain chemicals only, like alcohol.
-    updateFrequency: 1.5
+    updateInterval: 1.5
     maxReagents: 1
     metabolizerTypes: [Animal]
     groups:
     - id: Alcohol
       rateModifier: 0.1 # removes alcohol very slowly along with the stomach removing it as a drink
+  - type: Organ # Shitmed
+    slotId: liver
+  - type: Liver # Shitmed
 
 - type: entity
   id: OrganArachnidKidneys
   parent: BaseHumanOrgan
   name: kidneys
   description: "Filters toxins from the bloodstream."
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   components:
+  - type: Organ # Shitmed
+    slotId: kidneys
   - type: Sprite
     layers:
       - state: kidney-l
       - state: kidney-r
   # The kidneys just remove anything that doesn't currently have any metabolisms, as a stopgap.
   - type: Metabolizer
-    updateFrequency: 1.5
+    updateInterval: 1.5
     maxReagents: 5
     metabolizerTypes: [Animal]
     removeEmpty: true
@@ -145,6 +157,9 @@
     layers:
       - state: eyeball-l
       - state: eyeball-r
+  - type: Organ # Shitmed
+    slotId: eyes
+  - type: Eyes # Shitmed
 
 - type: entity
   id: OrganArachnidTongue

@@ -1,6 +1,8 @@
 using Content.Server.Electrocution;
+using Content.Shared.Electrocution;
 using Content.Server.Power.Components;
 using Content.Server.Wires;
+using Content.Shared.Emp;
 using Content.Shared.Power;
 using Content.Shared.Wires;
 
@@ -16,7 +18,7 @@ public sealed partial class PowerWireAction : BaseWireAction
     [DataField("pulseTimeout")]
     private int _pulseTimeout = 30;
 
-    private ElectrocutionSystem _electrocutionSystem = default!;
+    private ElectrocutionSystem _electrocution = default!;
 
     public override object StatusKey { get; } = PowerWireActionKey.Status;
 
@@ -78,6 +80,9 @@ public sealed partial class PowerWireAction : BaseWireAction
                 return;
             }
 
+            if (EntityManager.TryGetComponent<EmpDisabledComponent>(owner, out var emp))
+                return;
+
             power.PowerDisabled = false;
         }
     }
@@ -104,7 +109,8 @@ public sealed partial class PowerWireAction : BaseWireAction
             && !EntityManager.TryGetComponent(used, out electrified))
             return;
 
-        electrified.Enabled = setting;
+        _electrocution.SetElectrifiedWireCut((used, electrified), setting);
+        _electrocution.SetElectrified((used, electrified), setting);
     }
 
     /// <returns>false if failed, true otherwise, or if the entity cannot be electrified</returns>
@@ -118,7 +124,7 @@ public sealed partial class PowerWireAction : BaseWireAction
         // always set this to true
         SetElectrified(wire.Owner, true, electrified);
 
-        var electrifiedAttempt = _electrocutionSystem.TryDoElectrifiedAct(wire.Owner, user);
+        var electrifiedAttempt = _electrocution.TryDoElectrifiedAct(wire.Owner, user);
 
         // if we were electrified, then return false
         return !electrifiedAttempt;
@@ -159,7 +165,7 @@ public sealed partial class PowerWireAction : BaseWireAction
     {
         base.Initialize();
 
-        _electrocutionSystem = EntitySystem.Get<ElectrocutionSystem>();
+        _electrocution = EntityManager.System<ElectrocutionSystem>();
     }
 
     // This should add a wire into the entity's state, whether it be

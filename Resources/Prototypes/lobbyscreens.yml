@@ -1,39 +1,65 @@
-﻿- type: lobbyBackground
-  id: MedbayMadness
-  background: /Textures/LobbyScreens/MedbayMadness.png
+- type: lobbyBackground
+  id: Robotics
+  background: /Textures/LobbyScreens/robotics.webp
+  name: Robotics
+  artist: Veritius
 
 - type: lobbyBackground
-  id: Revenant
-  background: /Textures/LobbyScreens/revenant.png
+  id: Supermatter
+  background: /Textures/LobbyScreens/supermatter.webp
+  name: Supermatter
+  artist: Vertitius
 
 - type: lobbyBackground
-  id: Oracle
-  background: /Textures/LobbyScreens/oracle.png
+  id: Warden
+  background: /Textures/LobbyScreens/warden.webp
+  name: Warden
+  artist: Solbusaur
 
 - type: lobbyBackground
-  id: aBadShift
-  background: /Textures/LobbyScreens/aBadShift.png
+  id: Pharmacy
+  background: /Textures/LobbyScreens/pharmacy.webp
+  name: Pharmacy
+  artist: Solbusaur
 
 - type: lobbyBackground
-  id: Bar
-  background: /Textures/LobbyScreens/Bar.png
+  id: SSXIV
+  background: /Textures/LobbyScreens/ssxiv.webp
+  name: SSXIV
+  artist: Abyssal
 
 - type: lobbyBackground
-  id: CodeDeltaGamma
-  background: /Textures/LobbyScreens/CodeDeltaGamma.png
+  id: Susstation
+  background: /Textures/LobbyScreens/susstation.webp
+  name: Sus Station
+  artist: Alekshhh
 
 - type: lobbyBackground
-  id: CupOfVelta
-  background: /Textures/LobbyScreens/CupOfVelta.png
+  id: SkellyVsTheRev
+  background: /Textures/LobbyScreens/skellyvstherev.webp
+  name: Skelly Vs The Rev
+  artist: Hannah 'FairlySadPanda' Dawson
 
 - type: lobbyBackground
-  id: Epistemics
-  background: /Textures/LobbyScreens/Epistemics.png
+  id: Doomed
+  background: /Textures/LobbyScreens/doomed.webp
+  name: Doomed
+  artist: brainfood1183
 
 - type: lobbyBackground
-  id: Singulo
-  background: /Textures/LobbyScreens/Singulo.png
+  id: Blueprint
+  background: /Textures/LobbyScreens/blueprint.webp
+  name: Blueprint
+  artist: data_redacted
 
 - type: lobbyBackground
-  id: TechnologicalProgress
-  background: /Textures/LobbyScreens/DeltaV__Technological_Progress_by_threlo.png
+  id: TerminalStation
+  background: /Textures/LobbyScreens/terminalstation.webp
+  name: Terminal Station
+  artist: aserovich
+
+- type: lobbyBackground
+  id: JustAWeekAway
+  background: /Textures/LobbyScreens/justaweekaway.webp
+  name: Just A Week Away
+  artist: plantyfern

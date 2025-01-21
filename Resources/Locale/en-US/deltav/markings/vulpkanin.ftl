@@ -97,18 +97,12 @@ marking-VulpHeadSlash = Vulpkanin Slash
 marking-VulpTail-vulp = Vulpkanin tail (base)
 marking-VulpTail-vulp-fade = Vulpkanin tail (fade)
 marking-VulpTail = Vulpkanin
+marking-VulpTailAnimated = Vulpkanin (animated)
 
 marking-VulpTailTip-vulp = Vulpkanin tail (base)
 marking-VulpTailTip-vulp-tip = Vulpkanin tail (tip)
 marking-VulpTailTip = Vulpkanin (tip)
-
-marking-VulpTailWag-vulp_wag = Vulpkanin tail (base)
-marking-VulpTailWag-vulp_wag-fade = Vulpkanin tail (fade)
-marking-VulpTailWag = Vulpkanin (wag)
-
-marking-VulpTailWagTip-vulp_wag = Vulpkanin tail (base)
-marking-VulpTailWagTip-vulp_wag-tip = Vulpkanin tail (tip)
-marking-VulpTailWagTip = Vulpkanin (wag, tip)
+marking-VulpTailTipAnimated = Vulpkanin (tip) (animated)
 
 marking-VulpTailAlt-vulp_alt = Vulpkanin tail (base)
 marking-VulpTailAlt-vulp_alt-fade = Vulpkanin tail (fade)
@@ -125,33 +119,20 @@ marking-VulpTailLong = Vulpkanin Long
 marking-VulpTailFox-fox = Fox tail (base)
 marking-VulpTailFox-fox-fade = Fox tail (fade)
 marking-VulpTailFox = Vulpkanin Fox
+marking-VulpTailFoxAnimated = Vulpkanin Fox (animated)
 
 marking-VulpTailFoxTip-fox = Fox tail (base)
 marking-VulpTailFoxTip-fox-tip = Fox tail (fade)
 marking-VulpTailFoxTip = Vulpkanin Fox (tip)
-
-marking-VulpTailFoxWag-fox_wag = Fox tail (base)
-marking-VulpTailFoxWag-fox_wag-fade = Fox tail (fade)
-marking-VulpTailFoxWag = Vulpkanin Fox (wag)
-
-marking-VulpTailFoxWagTip-fox_wag = Fox tail (base)
-marking-VulpTailFoxWagTip-fox_wag-tip = Fox tail (tip)
-marking-VulpTailFoxWagTip = Vulpkanin Fox (wag, tip)
+marking-VulpTailFoxTipAnimated = Vulpkanin Fox (tip) (animated)
 
 marking-VulpTailBushy-bushfluff = Bush tail
 marking-VulpTailBushy = Vulpkanin Bush
-
-marking-VulpTailBushyWag-bushfluff_wag = Bush tail
-marking-VulpTailBushyWag = Vulpkanin Bush (wag)
+marking-VulpTailBushyAnimated = Vulpkanin Bush (animated)
 
 marking-VulpTailCoyote-coyote = Coyote tail
 marking-VulpTailCoyote = Vulpkanin Coyote
-
-marking-VulpTailCoyoteWag-coyote_wag = Coyote tail
-marking-VulpTailCoyoteWag = Vulpkanin Coyote (wag)
-
-marking-VulpTailCorgiWag-corgi_wag = Crogi tail
-marking-VulpTailCorgiWag = Vulpkanin Corgi (wag)
+marking-VulpTailCoyoteAnimated = Vulpkanin Coyote (animated)
 
 marking-VulpTailHusky-husky-inner = Husky tail (inner)
 marking-VulpTailHusky-husky-outer = Husky tail (outer)
@@ -176,9 +157,13 @@ marking-VulpTailOtie = Vulpkanin Otie
 marking-VulpTailFluffy-fluffy = Fluffy tail
 marking-VulpTailFluffy = Vulpkanin Fluffy
 
-marking-VulpTailDalmatianWag-dalmatian_wag = Dalmatian tail
-marking-VulpTailDalmatianWag = Vulpkanin Dalmatian (wag)
+marking-VulpTailCorgi-corgi = Crogi tail
+marking-VulpTailCorgi = Vulpkanin Corgi
+marking-VulpTailCorgiAnimated = Vulpkanin Corgi (animated)
 
+marking-VulpTailDalmatian-dalmatian = Dalmatian tail
+marking-VulpTailDalmatian = Vulpkanin Dalmatian
+marking-VulpTailDalmatianAnimated = Vulpkanin Dalmatian (animated)
 
 marking-VulpBellyCrest-belly_crest = Belly
 marking-VulpBellyCrest = Vulpkanin Belly Crest

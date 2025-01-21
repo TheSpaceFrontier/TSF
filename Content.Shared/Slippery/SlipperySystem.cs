@@ -1,9 +1,13 @@
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.Inventory;
+using Robust.Shared.Network;
+using Content.Shared.Popups;
 using Content.Shared.StatusEffect;
 using Content.Shared.StepTrigger.Systems;
 using Content.Shared.Stunnable;
+using Content.Shared.Throwing;
+using Content.Shared.Mood;
 using JetBrains.Annotations;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
@@ -28,13 +32,15 @@ public sealed class SlipperySystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<SlipperyComponent, StepTriggerAttemptEvent>(HandleAttemptCollide);
-        SubscribeLocalEvent<SlipperyComponent, StepTriggeredEvent>(HandleStepTrigger);
+        SubscribeLocalEvent<SlipperyComponent, StepTriggeredOffEvent>(HandleStepTrigger);
         SubscribeLocalEvent<NoSlipComponent, SlipAttemptEvent>(OnNoSlipAttempt);
+        SubscribeLocalEvent<ThrownItemComponent, SlipCausingAttemptEvent>(OnThrownSlipAttempt);
         // as long as slip-resistant mice are never added, this should be fine (otherwise a mouse-hat will transfer it's power to the wearer).
         SubscribeLocalEvent<NoSlipComponent, InventoryRelayedEvent<SlipAttemptEvent>>((e, c, ev) => OnNoSlipAttempt(e, c, ev.Args));
+        SubscribeLocalEvent<SlippableModifierComponent, SlippedEvent>(OnSlippableModifierSlipped);
     }
 
-    private void HandleStepTrigger(EntityUid uid, SlipperyComponent component, ref StepTriggeredEvent args)
+    private void HandleStepTrigger(EntityUid uid, SlipperyComponent component, ref StepTriggeredOffEvent args)
     {
         TrySlip(uid, component, args.Tripper);
     }
@@ -50,6 +56,16 @@ public sealed class SlipperySystem : EntitySystem
     private static void OnNoSlipAttempt(EntityUid uid, NoSlipComponent component, SlipAttemptEvent args)
     {
         args.Cancel();
+    }
+
+    private void OnThrownSlipAttempt(EntityUid uid, ThrownItemComponent comp, ref SlipCausingAttemptEvent args)
+    {
+        args.Cancelled = true;
+    }
+
+    private void OnSlippableModifierSlipped(EntityUid uid, SlippableModifierComponent comp, ref SlippedEvent args)
+    {
+        args.ParalyzeTime *= comp.ParalyzeTimeMultiplier;
     }
 
     private bool CanSlip(EntityUid uid, EntityUid toSlip)
@@ -68,8 +84,16 @@ public sealed class SlipperySystem : EntitySystem
         if (attemptEv.Cancelled)
             return;
 
+        var attemptCausingEv = new SlipCausingAttemptEvent();
+        RaiseLocalEvent(uid, ref attemptCausingEv);
+        if (attemptCausingEv.Cancelled)
+            return;
+
         var ev = new SlipEvent(other);
         RaiseLocalEvent(uid, ref ev);
+
+        var slippedEv = new SlippedEvent(uid, component.ParalyzeTime);
+        RaiseLocalEvent(other, ref slippedEv);
 
         if (TryComp(other, out PhysicsComponent? physics) && !HasComp<SlidingComponent>(other))
         {
@@ -85,7 +109,9 @@ public sealed class SlipperySystem : EntitySystem
 
         var playSound = !_statusEffects.HasStatusEffect(other, "KnockedDown");
 
-        _stun.TryParalyze(other, TimeSpan.FromSeconds(component.ParalyzeTime), true);
+        _stun.TryParalyze(other, TimeSpan.FromSeconds(slippedEv.ParalyzeTime), true);
+
+        RaiseLocalEvent(other, new MoodEffectEvent("MobSlipped"));
 
         // Preventing from playing the slip sound when you are already knocked down.
         if (playSound)
@@ -107,7 +133,29 @@ public sealed class SlipAttemptEvent : CancellableEntityEventArgs, IInventoryRel
 }
 
 /// <summary>
-///     This event is raised directed at an entity that CAUSED some other entity to slip (e.g., the banana peel).
+/// Raised on an entity that is causing the slip event (e.g, the banana peel), to determine if the slip attempt should be cancelled.
 /// </summary>
+/// <param name="Cancelled">If the slip should be cancelled</param>
+[ByRefEvent]
+public record struct SlipCausingAttemptEvent (bool Cancelled);
+
+/// Raised on an entity that CAUSED some other entity to slip (e.g., the banana peel).
+/// <param name="Slipped">The entity being slipped</param>
 [ByRefEvent]
 public readonly record struct SlipEvent(EntityUid Slipped);
+
+/// Raised on an entity that slipped.
+/// <param name="Slipper">The entity that caused the slip</param>
+/// <param name="ParalyzeTime">How many seconds the entity will be paralyzed for, modifiable with this event.</param>
+[ByRefEvent]
+public record struct SlippedEvent
+{
+    public readonly EntityUid Slipper;
+    public float ParalyzeTime;
+
+    public SlippedEvent(EntityUid slipper, float paralyzeTime)
+    {
+        Slipper = slipper;
+        ParalyzeTime = paralyzeTime;
+    }
+}

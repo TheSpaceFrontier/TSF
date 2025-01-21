@@ -11,10 +11,12 @@
   cost: 7500
   recipeUnlocks:
   - MiningDrill
+  - WeaponGrapplingGun
   - BorgModuleMining
+  - BorgModuleGrapplingGun
   - OreProcessorIndustrialMachineCircuitboard
-  - OreBagOfHolding
-  - SalvageExpeditionsComputerCircuitboard # DeltaV
+  - ClothingMaskWeldingGas
+  - SalvageExpeditionsComputerCircuitboard
 
 - type: technology
   id: AdvancedPowercells
@@ -28,6 +30,7 @@
   recipeUnlocks:
   - PowerCellHigh
   - TurboItemRechargerCircuitboard
+  - SMESAdvancedMachineCircuitboard
 
 - type: technology
   id: MechanicalCompression
@@ -53,6 +56,7 @@
   recipeUnlocks:
   - AutolatheHyperConvectionMachineCircuitboard
   - ProtolatheHyperConvectionMachineCircuitboard
+  - CircuitImprinterHyperConvectionMachineCircuitboard
   - SheetifierMachineCircuitboard
 
 - type: technology
@@ -85,6 +89,7 @@
   recipeUnlocks:
   - ThermomachineFreezerMachineCircuitBoard
   - GasRecyclerMachineCircuitboard
+  - AlertsComputerCircuitboard
 
 - type: technology
   id: RipleyAPLU
@@ -104,19 +109,6 @@
   - RipleyCentralElectronics
   - RipleyPeripheralsElectronics
   - MechEquipmentGrabber
-
-#- type: technology
-#  id: Grappling
-#  name: research-technology-grappling
-#  icon:
-#    sprite: Objects/Weapons/Guns/Launchers/grappling_gun.rsi
-#    state: base
-#  discipline: Industrial
-#  tier: 1
-#  cost: 5000
-#  recipeUnlocks:
-#  - WeaponGrapplingGun
-#  - BorgModuleGrapplingGun
 
 # Tier 2
 
@@ -179,6 +171,32 @@
     - BorgModuleAdvancedTool
     - BorgModuleRCD
 
+- type: technology
+  id: MassExcavation
+  name: research-technology-excavation
+  icon:
+    sprite: Objects/Tools/handdrilldiamond.rsi
+    state: handdrill
+  discipline: Industrial
+  tier: 2
+  cost: 12500
+  recipeUnlocks:
+    - OreBagOfHolding
+    - MiningDrillDiamond
+
+- type: technology
+  id: MechanizedSalvaging
+  name: research-technology-mechanized-salvaging
+  icon:
+    sprite: Mobs/Silicon/chassis.rsi
+    state: miner
+  discipline: Industrial
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+  - BorgModulePka
+  - BorgModuleJetpack
+
 # Tier 3
 
 - type: technology
@@ -194,6 +212,8 @@
   - ClothingBackpackHolding
   - ClothingBackpackSatchelHolding
   - ClothingBackpackDuffelHolding
+  - MaterialSiloCircuitboard
+  softCapContribution: 1.5
 
 - type: technology
   id: PortableFission
@@ -208,3 +228,4 @@
   - PowerCellMicroreactor
   technologyPrerequisites:
   - AdvancedPowercells
+  softCapContribution: 1.5

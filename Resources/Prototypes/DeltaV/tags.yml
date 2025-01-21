@@ -1,4 +1,6 @@
 ## This is for Nyano and Delta V tags
+- type: Tag
+  id: AllowLamiaHardsuit
 
 - type: Tag
   id: BeltSlotNotBelt #not a 'belt'
@@ -13,7 +15,16 @@
   id: Directional
 
 - type: Tag
+  id: DockShipyard
+
+- type: Tag
   id: ForensicBeltEquip
+
+- type: Tag
+  id: Gavel
+
+- type: Tag
+  id: GasPipeHalf #Craftable Musket
 
 - type: Tag
   id: HandLabeler

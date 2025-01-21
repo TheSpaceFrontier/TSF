@@ -1,4 +1,6 @@
 using Content.Shared.Access;
+using Content.Shared.Customization.Systems;
+using Content.Shared.Dataset;
 using Content.Shared.Players.PlayTimeTracking;
 using Content.Shared.Roles;
 using Content.Shared.StatusIcon;
@@ -43,7 +45,7 @@ namespace Content.Shared.Roles
         public string? LocalizedDescription => Description is null ? null : Loc.GetString(Description);
 
         [DataField("requirements")]
-        public HashSet<JobRequirement>? Requirements;
+        public List<CharacterRequirement>? Requirements;
 
         [DataField("joinNotifyCrew")]
         public bool JoinNotifyCrew { get; private set; } = false;
@@ -98,6 +100,13 @@ namespace Content.Shared.Roles
         public string? StartingGear { get; private set; }
 
         /// <summary>
+        ///     If this has a value, it will randomly set the entity name of the
+        ///     entity upon spawn based on the dataset.
+        /// </summary>
+        [DataField]
+        public ProtoId<LocalizedDatasetPrototype>? NameDataset;
+
+        /// <summary>
         /// Use this to spawn in as a non-humanoid (borg, test subject, etc.)
         /// Starting gear will be ignored.
         /// If you want to just add special attributes to a humanoid, use AddComponentSpecial instead.
@@ -105,23 +114,32 @@ namespace Content.Shared.Roles
         [DataField("jobEntity", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
         public string? JobEntity = null;
 
-        [DataField("icon", customTypeSerializer: typeof(PrototypeIdSerializer<StatusIconPrototype>))]
-        public string Icon { get; private set; } = "JobIconUnknown";
+        [DataField]
+        public ProtoId<JobIconPrototype> Icon { get; private set; } = "JobIconUnknown";
 
         [DataField("special", serverOnly: true)]
         public JobSpecial[] Special { get; private set; } = Array.Empty<JobSpecial>();
 
-        [DataField("access", customTypeSerializer: typeof(PrototypeIdListSerializer<AccessLevelPrototype>))]
-        public IReadOnlyCollection<string> Access { get; private set; } = Array.Empty<string>();
+        [DataField("access")]
+        public IReadOnlyCollection<ProtoId<AccessLevelPrototype>> Access { get; private set; } = Array.Empty<ProtoId<AccessLevelPrototype>>();
 
-        [DataField("accessGroups", customTypeSerializer: typeof(PrototypeIdListSerializer<AccessGroupPrototype>))]
-        public IReadOnlyCollection<string> AccessGroups { get; private set; } = Array.Empty<string>();
+        [DataField("accessGroups")]
+        public IReadOnlyCollection<ProtoId<AccessGroupPrototype>> AccessGroups { get; private set; } = Array.Empty<ProtoId<AccessGroupPrototype>>();
 
-        [DataField("extendedAccess", customTypeSerializer: typeof(PrototypeIdListSerializer<AccessLevelPrototype>))]
-        public IReadOnlyCollection<string> ExtendedAccess { get; private set; } = Array.Empty<string>();
+        [DataField("extendedAccess")]
+        public IReadOnlyCollection<ProtoId<AccessLevelPrototype>> ExtendedAccess { get; private set; } = Array.Empty<ProtoId<AccessLevelPrototype>>();
 
-        [DataField("extendedAccessGroups", customTypeSerializer: typeof(PrototypeIdListSerializer<AccessGroupPrototype>))]
-        public IReadOnlyCollection<string> ExtendedAccessGroups { get; private set; } = Array.Empty<string>();
+        [DataField("extendedAccessGroups")]
+        public IReadOnlyCollection<ProtoId<AccessGroupPrototype>> ExtendedAccessGroups { get; private set; } = Array.Empty<ProtoId<AccessGroupPrototype>>();
+
+        [DataField]
+        public bool Whitelisted;
+
+        [DataField]
+        public bool SpawnLoadout = true;
+
+        [DataField]
+        public bool ApplyTraits = true;
     }
 
     /// <summary>

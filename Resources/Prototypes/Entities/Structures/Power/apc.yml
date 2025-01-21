@@ -1,11 +1,12 @@
 - type: entity
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   id: BaseAPC
   name: APC
   description: A control terminal for the area's electrical systems.
   placement:
     mode: SnapgridCenter
   components:
+  - type: StationAiWhitelist
   - type: AmbientOnPowered
   - type: AmbientSound
     volume: -9
@@ -81,8 +82,8 @@
   - type: ExtensionCableProvider
   - type: UserInterface
     interfaces:
-    - key: enum.ApcUiKey.Key
-      type: ApcBoundUserInterface
+      enum.ApcUiKey.Key:
+        type: ApcBoundUserInterface
   - type: ActivatableUI
     inHandsOnly: false
     singleUser: true
@@ -97,9 +98,6 @@
     supplyRampRate: 500
   - type: WallMount
   - type: WiresPanel
-  - type: Wires
-    boardName: wires-board-name-apc
-    layoutId: APC
   - type: WiresVisuals
   - type: Damageable
     damageContainer: Inorganic
@@ -141,10 +139,12 @@
     priority: 1
   - type: StaticPrice
     price: 500
+  - type: BatteryDrinkerSource # Parkstation IPCs
+    maxAmount: 10000
 
 # APC under construction
 - type: entity
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   id: APCFrame
   name: APC frame
   description: A control terminal for the area's electrical systems, lacking the electronics.
@@ -207,6 +207,8 @@
   - type: Battery
     maxCharge: 50000
     startingCharge: 50000
+  - type: BatteryDrinkerSource # Parkstation IPCs
+    maxAmount: 5000
 
 - type: entity
   parent: BaseAPC
@@ -216,6 +218,8 @@
   - type: Battery
     maxCharge: 100000
     startingCharge: 100000
+  - type: BatteryDrinkerSource # Parkstation IPCs
+    maxAmount: 12000
 
 - type: entity
   parent: BaseAPC
@@ -225,6 +229,8 @@
   - type: Battery
     maxCharge: 150000
     startingCharge: 150000
+  - type: BatteryDrinkerSource # Parkstation IPCs
+    maxAmount: 18000
 
 - type: entity
   parent: BaseAPC
@@ -234,3 +240,5 @@
   - type: Battery
     maxCharge: 200000
     startingCharge: 200000
+  - type: BatteryDrinkerSource # Parkstation IPCs # Parkstation IPCs
+    maxAmount: 26000

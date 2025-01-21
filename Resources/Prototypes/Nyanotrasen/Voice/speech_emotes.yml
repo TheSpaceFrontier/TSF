@@ -1,73 +1,83 @@
 # vocal emotes
 - type: emote
   id: Hiss
+  name: chat-emote-name-hisses
   category: Vocal
-  chatMessages: [hisses.]
+  icon: Interface/Emotes/hiss.png
+  whitelist:
+    tags:
+    - FelinidEmotes
+    - HarpyEmotes
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [ hisses ]
   chatTriggers:
-    - hiss.
-    - hisses.
-    - hisses!
-    - hissing.
-    - hissed.
+    - hisses
 
 - type: emote
   id: Meow
+  name: chat-emote-name-meow
   category: Vocal
-  chatMessages: [meows.]
+  icon: Interface/Emotes/meow.png
+  whitelist:
+    tags:
+    - FelinidEmotes
+    - HarpyEmotes
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [ meows ]
   chatTriggers:
-    - meow.
-    - meow!
-    - meows.
-    - meows~
-    - meows!
-    - meowing.
-    - meowed.
-    - miau.
-    - miaus.
-    - miaus!
-    - nya.
-    - nyas.
-    - nyas!
-    - mraow.
-    - mraow!
-    - mraow~
-    - mraows.
-    - mraows!
-    - mraows~
+    - meows
+    - miaus
+    - nyas
+    - mraows
 
 - type: emote
   id: Mew
+  name: chat-emote-name-mew
   category: Vocal
-  chatMessages: [mews.]
+  icon: Interface/Emotes/mew.png
+  whitelist:
+    tags:
+    - FelinidEmotes
+    - HarpyEmotes
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [ mews ]
   chatTriggers:
-    - mew.
-    - mew!
-    - mew~
-    - mews.
-    - mews!
-    - mews~
-    - mewing.
-    - mewed.
+    - mews
 
 - type: emote
   id: Growl
+  name: chat-emote-name-growl
   category: Vocal
-  chatMessages: [growls.]
+  icon: Interface/Emotes/growl.png
+  whitelist:
+    tags:
+    - FelinidEmotes
+    - HarpyEmotes
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [ growls ]
   chatTriggers:
-    - growl.
-    - growls.
-    - growls!
-    - growling.
-    - growled.
+    - growls
 
 - type: emote
   id: Purr
+  name: chat-emote-name-purr
   category: Vocal
-  chatMessages: [purrs.]
+  icon: Interface/Emotes/purr.png
+  whitelist:
+    tags:
+    - FelinidEmotes
+    - HarpyEmotes
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [ purrs ]
   chatTriggers:
-    - purr.
-    - purrs.
-    - purrs~
-    - purrs!
-    - purring.
-    - purred.
+    - purrs

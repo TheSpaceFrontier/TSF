@@ -48,6 +48,14 @@
         layer:
         - MachineLayer
   - type: EntityStorage
+    closeSound:
+      path: /Audio/Effects/closet_close.ogg
+      params:
+        volume: -4
+    openSound:
+      path: /Audio/Effects/closet_open.ogg
+      params:
+        volume: -4
   - type: ContainerContainer
     containers:
       entity_storage: !type:Container
@@ -90,6 +98,11 @@
     stateDoorClosed: generic_door
   - type: StaticPrice
     price: 50
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Blunt: 10
+    staminaCost: 35
 
 # steel closet base (that can be constructed/deconstructed)
 - type: entity
@@ -101,6 +114,11 @@
     node: done
     containers:
     - entity_storage
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Blunt: 15
+    staminaCost: 50
 
 #Wall Closet
 - type: entity
@@ -171,6 +189,11 @@
           SheetSteel1:
             min: 1
             max: 1
+  - type: Construction
+    graph: ClosetWall
+    node: done
+    containers:
+    - entity_storage
 
 #Wall locker
 - type: entity

@@ -11,7 +11,7 @@
           mapNameTemplate: '{0} Tortuga Station {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
-            prefixCreator: 'TG'
+            prefixCreator: 'DV'
         - type: StationEmergencyShuttle
           emergencyShuttlePath: /Maps/Shuttles/DeltaV/NTES_Seal.yml
         - type: StationJobs
@@ -23,6 +23,10 @@
             Librarian: [ 1, 1 ]
           #command
             Captain: [ 1, 1 ]
+            BlueshieldOfficer: [ 1, 1]
+            NanotrasenRepresentative: [ 1, 1 ]
+            Magistrate: [ 1, 1 ]
+            AdministrativeAssistant: [ 1, 1 ]
           #engineering
             AtmosphericTechnician: [ 2, 3 ]
             ChiefEngineer: [ 1, 1 ]
@@ -69,3 +73,5 @@
             CargoTechnician: [ 2, 4 ]
             SalvageSpecialist: [ 3, 4 ]
             MailCarrier: [ 2, 2 ]
+          # Silicon
+            StationAi: [ 1, 1 ]

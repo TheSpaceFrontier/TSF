@@ -19,10 +19,11 @@
         liver: OrganAnimalLiver
         kidneys: OrganHumanKidneys
       connections:
-      - left arm
       - right arm
-      - left leg
+      - left arm
       - right leg
+      - left leg
+      - head # Shitmed Change
     right arm:
       part: RightArmVulpkanin
       connections:

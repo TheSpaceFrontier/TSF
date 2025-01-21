@@ -19,6 +19,10 @@
     - type: Damageable
       damageContainer: Inorganic
       damageModifierSet: Metallic
+    - type: RCDDeconstructable
+      cost: 4
+      delay: 6
+      fx: EffectRCDDeconstruct6
     - type: Destructible
       thresholds:
       - trigger:
@@ -78,26 +82,24 @@
       openingAnimationTime: 0.6
       closingAnimationTime: 0.6
     - type: Weldable
+      fuel: 5
       time: 3
     - type: Firelock
     - type: Appearance
     - type: WiresVisuals
     - type: WiresPanel
-    - type: Wires
-      boardName: wires-board-name-firelock
-      layoutId: Firelock
     - type: UserInterface
       interfaces:
-        - key: enum.WiresUiKey.Key
+        enum.WiresUiKey.Key:
           type: WiresBoundUserInterface
     - type: Physics
       canCollide: false
     - type: Airtight
-      fixVacuum: true
       airBlocked: false
       noAirWhenFullyAirBlocked: true
     - type: RadiationBlocker
       enabled: false
+      resistance: 1
     - type: Occluder
       enabled: false
     - type: WallMount
@@ -107,11 +109,13 @@
     - type: DoorBolt
     - type: AccessReader
       access: [ [ "Engineering" ] ]
+    - type: NavMapDoor
 
 - type: entity
   id: Firelock
   parent: BaseFirelock
   components:
+  - type: StationAiWhitelist
   - type: ContainerContainer
     containers:
       board: !type:Container
@@ -129,6 +133,7 @@
   parent: Firelock
   name: glass firelock
   components:
+    - type: StationAiWhitelist
     - type: Sprite
       sprite: Structures/Doors/Airlocks/Glass/firelock.rsi
     - type: Occluder
@@ -151,14 +156,14 @@
 
 - type: entity
   id: FirelockEdge
-  parent: BaseFirelock
+  parent: Firelock
   name: firelock
   components:
+    - type: StationAiWhitelist
     - type: Sprite
       sprite: Structures/Doors/edge_door_hazard.rsi
       snapCardinals: false
     - type: Airtight
-      fixVacuum: true
       airBlocked: false
       noAirWhenFullyAirBlocked: false
       airBlockedDirection:
@@ -182,3 +187,6 @@
       canCollide: false
     - type: StaticPrice
       price: 100
+    - type: Construction
+      graph: Firelock
+      node: FirelockEdge

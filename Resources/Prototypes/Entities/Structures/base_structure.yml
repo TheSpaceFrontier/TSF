@@ -25,6 +25,13 @@
   - type: Tag
     tags:
       - Structure
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Blunt: 9
+    staminaCost: 50
+    soundHit:
+      collection: MetalThud
 
 - type: entity
   # This means that it's not anchored on spawn.
@@ -55,6 +62,14 @@
         - MidImpassable
         - LowImpassable
   - type: Anchorable
+
+# For use with yaml composition, so that all wheeled structures can easily be changed.
+- type: entity
+  id: StructureWheeled
+  abstract: true
+  components:
+    - type: TileFrictionModifier
+      modifier: 0.4
 
 - type: Tag
   id: Structure

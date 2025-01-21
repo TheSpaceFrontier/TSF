@@ -11,9 +11,11 @@ using Content.Shared.Tag;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
+using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
-using Content.Shared.Abilities.Psionics; //Nyano - Summary: for the telegnostic projection.
+using Content.Shared.Abilities.Psionics;
 
 namespace Content.Server.Singularity.EntitySystems;
 
@@ -29,6 +31,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
     [Dependency] private readonly IMapManager _mapMan = default!;
     [Dependency] private readonly IAdminLogManager _adminLogger = default!;
     [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedTransformSystem _xformSystem = default!;
     [Dependency] private readonly TagSystem _tagSystem = default!;
     #endregion Dependencies
@@ -39,7 +42,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
 
         SubscribeLocalEvent<MapGridComponent, EventHorizonAttemptConsumeEntityEvent>(PreventConsume);
         SubscribeLocalEvent<GhostComponent, EventHorizonAttemptConsumeEntityEvent>(PreventConsume);
-        SubscribeLocalEvent<TelegnosticProjectionComponent, EventHorizonAttemptConsumeEntityEvent>(PreventConsume); ///Nyano - Summary: the telegnositic projection has the same trait as ghosts. 
+        SubscribeLocalEvent<TelegnosticProjectionComponent, EventHorizonAttemptConsumeEntityEvent>(PreventConsume); ///Nyano - Summary: the telegnositic projection has the same trait as ghosts.
         SubscribeLocalEvent<StationDataComponent, EventHorizonAttemptConsumeEntityEvent>(PreventConsume);
         SubscribeLocalEvent<EventHorizonComponent, MapInitEvent>(OnHorizonMapInit);
         SubscribeLocalEvent<EventHorizonComponent, StartCollideEvent>(OnStartCollide);
@@ -97,7 +100,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
             return;
 
         // Handle singularities some admin smited into a locker.
-        if (_containerSystem.TryGetContainingContainer(uid, out var container, transform: xform)
+        if (_containerSystem.TryGetContainingContainer((uid, xform, null), out var container)
         && !AttemptConsumeEntity(uid, container.Owner, eventHorizon))
         {
             // Locker is indestructible. Consume everything else in the locker instead of magically teleporting out.
@@ -127,6 +130,15 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
         }
 
         EntityManager.QueueDeleteEntity(morsel);
+
+        if (eventHorizon.InheritMomentum && TryComp<PhysicsComponent>(hungry, out var thisPhysics) && TryComp<PhysicsComponent>(morsel, out var otherPhysics))
+        {
+            var impulse = (otherPhysics.LinearVelocity - thisPhysics.LinearVelocity)
+                * otherPhysics.FixturesMass
+                * thisPhysics.FixturesMass / (thisPhysics.FixturesMass + otherPhysics.FixturesMass); // Accounts for the expected mass change from consuming the object
+            _physics.ApplyLinearImpulse(hungry, impulse, body: thisPhysics);
+        }
+
         var evSelf = new EntityConsumedByEventHorizonEvent(morsel, hungry, eventHorizon, outerContainer);
         var evEaten = new EventHorizonConsumedEntityEvent(morsel, hungry, eventHorizon, outerContainer);
         RaiseLocalEvent(hungry, ref evSelf);
@@ -167,7 +179,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
         var range2 = range * range;
         var xformQuery = EntityManager.GetEntityQuery<TransformComponent>();
         var epicenter = _xformSystem.GetWorldPosition(xform, xformQuery);
-        foreach (var entity in _lookup.GetEntitiesInRange(xform.MapPosition, range, flags: LookupFlags.Uncontained))
+        foreach (var entity in _lookup.GetEntitiesInRange(_xformSystem.GetMapCoordinates(uid, xform), range, flags: LookupFlags.Uncontained))
         {
             if (entity == uid)
                 continue;
@@ -214,7 +226,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
                 if (_containerSystem.Insert(entity, target_container))
                     break;
 
-                _containerSystem.TryGetContainingContainer(target_container.Owner, out target_container);
+                _containerSystem.TryGetContainingContainer((target_container.Owner, null, null), out target_container);
             }
 
             // If we couldn't or there was no container to insert into just dump them to the map/grid.
@@ -232,7 +244,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
     /// </summary>
     public void ConsumeTile(EntityUid hungry, TileRef tile, EventHorizonComponent eventHorizon)
     {
-        ConsumeTiles(hungry, new List<(Vector2i, Tile)>(new[] { (tile.GridIndices, Tile.Empty) }), tile.GridUid, _mapMan.GetGrid(tile.GridUid), eventHorizon);
+        ConsumeTiles(hungry, new List<(Vector2i, Tile)>(new[] { (tile.GridIndices, Tile.Empty) }), tile.GridUid, Comp<MapGridComponent>(tile.GridUid), eventHorizon);
     }
 
     /// <summary>
@@ -240,7 +252,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
     /// </summary>
     public void AttemptConsumeTile(EntityUid hungry, TileRef tile, EventHorizonComponent eventHorizon)
     {
-        AttemptConsumeTiles(hungry, new TileRef[1] { tile }, tile.GridUid, _mapMan.GetGrid(tile.GridUid), eventHorizon);
+        AttemptConsumeTiles(hungry, new TileRef[1] { tile }, tile.GridUid, Comp<MapGridComponent>(tile.GridUid), eventHorizon);
     }
 
     /// <summary>
@@ -297,7 +309,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
         if (!Resolve(uid, ref xform) || !Resolve(uid, ref eventHorizon))
             return;
 
-        var mapPos = xform.MapPosition;
+        var mapPos = _xformSystem.GetMapCoordinates(uid, xform: xform);
         var box = Box2.CenteredAround(mapPos.Position, new Vector2(range, range));
         var circle = new Circle(mapPos.Position, range);
         var grids = new List<Entity<MapGridComponent>>();
@@ -470,7 +482,7 @@ public sealed class EventHorizonSystem : SharedEventHorizonSystem
     {
         var drop_container = args.Container;
         if (drop_container is null)
-            _containerSystem.TryGetContainingContainer(uid, out drop_container);
+            _containerSystem.TryGetContainingContainer((uid, null, null), out drop_container);
 
         foreach (var container in comp.GetAllContainers())
         {

@@ -1,10 +1,10 @@
 using System.Linq;
 using Content.Shared.Administration.Logs;
+using Content.Shared.Body.Systems;
 using Content.Shared.Database;
 using Content.Shared.Gravity;
 using Content.Shared.Physics;
-using Content.Shared.Physics.Pull;
-using Robust.Shared.GameStates;
+using Content.Shared.Movement.Pulling.Events;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
@@ -24,6 +24,7 @@ namespace Content.Shared.Throwing
         [Dependency] private readonly FixtureSystem _fixtures = default!;
         [Dependency] private readonly SharedPhysicsSystem _physics = default!;
         [Dependency] private readonly SharedGravitySystem _gravity = default!;
+        [Dependency] private readonly SharedBodySystem _body = default!;
 
         private const string ThrowingFixture = "throw-fixture";
 
@@ -85,15 +86,15 @@ namespace Content.Shared.Throwing
         private void HandlePullStarted(PullStartedMessage message)
         {
             // TODO: this isn't directed so things have to be done the bad way
-            if (EntityManager.TryGetComponent(message.Pulled.Owner, out ThrownItemComponent? thrownItemComponent))
-                StopThrow(message.Pulled.Owner, thrownItemComponent);
+            if (EntityManager.TryGetComponent(message.PulledUid, out ThrownItemComponent? thrownItemComponent))
+                StopThrow(message.PulledUid, thrownItemComponent);
         }
 
         public void StopThrow(EntityUid uid, ThrownItemComponent thrownItemComponent)
         {
             if (TryComp<PhysicsComponent>(uid, out var physics))
             {
-                _physics.SetBodyStatus(physics, BodyStatus.OnGround);
+                _physics.SetBodyStatus(uid, physics, BodyStatus.OnGround);
 
                 if (physics.Awake)
                     _broadphase.RegenerateContacts(uid, physics);
@@ -134,15 +135,20 @@ namespace Content.Shared.Throwing
         /// </summary>
         public void ThrowCollideInteraction(ThrownItemComponent component, EntityUid thrown, EntityUid target)
         {
+            if (HasComp<ThrownItemImmuneComponent>(target))
+                return;
+
             if (component.Thrower is not null)
                 _adminLogger.Add(LogType.ThrowHit, LogImpact.Low,
                     $"{ToPrettyString(thrown):thrown} thrown by {ToPrettyString(component.Thrower.Value):thrower} hit {ToPrettyString(target):target}.");
 
-            if (component.Thrower is not null)// Nyano - Summary: Gotta check if there was a thrower. 
-                RaiseLocalEvent(target, new ThrowHitByEvent(component.Thrower.Value, thrown, target, component), true); // Nyano - Summary: Gotta update for who threw it.
+            var targetPart = _body.GetRandomBodyPart(target);
+
+            if (component.Thrower is not null)// Nyano - Summary: Gotta check if there was a thrower.
+                RaiseLocalEvent(target, new ThrowHitByEvent(component.Thrower.Value, thrown, target, component, targetPart), true); // Nyano - Summary: Gotta update for who threw it.
             else
-                RaiseLocalEvent(target, new ThrowHitByEvent(null, thrown, target, component), true); // Nyano - Summary: No thrower. 
-            RaiseLocalEvent(thrown, new ThrowDoHitEvent(thrown, target, component), true);
+                RaiseLocalEvent(target, new ThrowHitByEvent(null, thrown, target, component, targetPart), true); // Nyano - Summary: No thrower.
+            RaiseLocalEvent(thrown, new ThrowDoHitEvent(thrown, target, component, targetPart), true);
         }
 
         public override void Update(float frameTime)
@@ -157,7 +163,7 @@ namespace Content.Shared.Throwing
                     LandComponent(uid, thrown, physics, thrown.PlayLandSound);
                 }
 
-                var stopThrowTime = (thrown.LandTime ?? thrown.ThrownTime) + TimeSpan.FromSeconds(ThrowingSystem.FlyTime);
+                var stopThrowTime = thrown.LandTime ?? thrown.ThrownTime;
                 if (stopThrowTime <= _gameTiming.CurTime)
                 {
                     StopThrow(uid, thrown);

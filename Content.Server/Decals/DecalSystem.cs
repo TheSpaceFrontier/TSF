@@ -21,7 +21,6 @@ using Robust.Shared.Threading;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using static Content.Shared.Decals.DecalGridComponent;
-using ChunkIndicesEnumerator = Robust.Shared.Map.Enumerators.ChunkIndicesEnumerator;
 
 namespace Content.Server.Decals
 {
@@ -89,10 +88,11 @@ namespace Content.Server.Decals
                 playerData.Clear();
             }
 
-            foreach (var (grid, meta) in EntityQuery<DecalGridComponent, MetaDataComponent>(true))
+            var query = EntityQueryEnumerator<DecalGridComponent, MetaDataComponent>();
+            while (query.MoveNext(out var uid, out var grid, out var meta))
             {
                 grid.ForceTick = _timing.CurTick;
-                Dirty(grid, meta);
+                Dirty(uid, grid, meta);
             }
         }
 
@@ -105,7 +105,7 @@ namespace Content.Server.Decals
                 return;
 
             // Transfer decals over to the new grid.
-            var enumerator = MapManager.GetGrid(ev.Grid).GetAllTilesEnumerator();
+            var enumerator = Comp<MapGridComponent>(ev.Grid).GetAllTilesEnumerator();
 
             var oldChunkCollection = oldComp.ChunkCollection.ChunkCollection;
             var chunkCollection = newComp.ChunkCollection.ChunkCollection;
@@ -334,33 +334,6 @@ namespace Content.Server.Decals
                 if (validDelegate == null || validDelegate(decal))
                 {
                     decalIds.Add((uid, decal));
-                }
-            }
-
-            return decalIds;
-        }
-
-        public HashSet<(uint Index, Decal Decal)> GetDecalsIntersecting(EntityUid gridUid, Box2 bounds, DecalGridComponent? component = null)
-        {
-            var decalIds = new HashSet<(uint, Decal)>();
-            var chunkCollection = ChunkCollection(gridUid, component);
-
-            if (chunkCollection == null)
-                return decalIds;
-
-            var chunks = new ChunkIndicesEnumerator(bounds, ChunkSize);
-
-            while (chunks.MoveNext(out var chunkOrigin))
-            {
-                if (!chunkCollection.TryGetValue(chunkOrigin.Value, out var chunk))
-                    continue;
-
-                foreach (var (id, decal) in chunk.Decals)
-                {
-                    if (!bounds.Contains(decal.Coordinates))
-                        continue;
-
-                    decalIds.Add((id, decal));
                 }
             }
 

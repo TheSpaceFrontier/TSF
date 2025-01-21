@@ -9,6 +9,7 @@
   - type: SmokeVisuals
   - type: Transform
     anchored: true
+  - type: Clickable
   - type: Physics
   - type: Fixtures
     fixtures:
@@ -35,7 +36,7 @@
   parent: BaseFoam
   id: Smoke
   name: smoke
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   components:
   - type: Occluder
   - type: Sprite
@@ -51,7 +52,7 @@
   parent: BaseFoam
   id: Foam
   name: foam
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     color: "#ffffffcc"
@@ -76,11 +77,17 @@
     animationState: foam-dissolve
   - type: Slippery
   - type: StepTrigger
+    triggerGroups:
+      types:
+      - SlipTile
+  # disabled until foam reagent duplication is fixed
+  #- type: ScoopableSolution
+  #  solution: solutionArea
 
 - type: entity
   id: MetalFoam
   name: metal foam
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   parent: Foam
   components:
   - type: Sprite
@@ -104,7 +111,7 @@
 - type: entity
   id: IronMetalFoam
   name: iron metal foam
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   parent: MetalFoam
   components:
   - type: SpawnOnDespawn
@@ -113,7 +120,7 @@
 - type: entity
   id: AluminiumMetalFoam
   name: aluminium metal foam
-  noSpawn: true
+  categories: [ HideSpawnMenu ]
   parent: MetalFoam
   components:
   - type: SpawnOnDespawn
@@ -128,9 +135,10 @@
     snap:
     - Wall
   components:
-  - type: Tag
-    tags:
-    - RCDDeconstructWhitelist
+  - type: RCDDeconstructable
+    cost: 2
+    delay: 2
+    fx: EffectRCDDeconstruct2
   - type: Clickable
   - type: InteractionOutline
   - type: Sprite

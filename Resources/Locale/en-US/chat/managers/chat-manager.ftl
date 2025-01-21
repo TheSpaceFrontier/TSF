@@ -18,14 +18,19 @@ chat-manager-no-radio-key = No radio key specified!
 chat-manager-no-such-channel = There is no channel with key '{$key}'!
 chat-manager-whisper-headset-on-message = You can't whisper on the radio!
 
+chat-manager-language-prefix = ({ $language }){" "}
+
 chat-manager-server-wrap-message = [bold]{$message}[/bold]
 chat-manager-sender-announcement-wrap-message = [font size=14][bold]{$sender} Announcement:[/font][font size=12]
                                                 {$message}[/bold][/font]
-chat-manager-entity-say-wrap-message = [BubbleHeader][Name]{$entityName}[/Name][/BubbleHeader] {$verb}, [font={$fontType} size={$fontSize}]"[BubbleContent]{$message}[/BubbleContent]"[/font]
-chat-manager-entity-say-bold-wrap-message = [BubbleHeader][Name]{$entityName}[/Name][/BubbleHeader] {$verb}, [font={$fontType} size={$fontSize}]"[BubbleContent][bold]{$message}[/bold][/BubbleContent]"[/font]
 
-chat-manager-entity-whisper-wrap-message = [font size=11][italic][BubbleHeader][Name]{$entityName}[/Name][/BubbleHeader] whispers,"[BubbleContent]{$message}[/BubbleContent]"[/italic][/font]
-chat-manager-entity-whisper-unknown-wrap-message = [font size=11][italic][BubbleHeader]Someone[/BubbleHeader] whispers, "[BubbleContent]{$message}[/BubbleContent]"[/italic][/font]
+# For the message in double quotes, the font/color/bold/italic elements are repeated twice, outside the double quotes and inside.
+# The outside elements are for formatting the double quotes, and the inside elements are for formatting the text in speech bubbles ([BubbleContent]).
+chat-manager-entity-say-wrap-message = [BubbleHeader][Name][font size=11][color={$color}][bold]{$language}[/bold][/color][/font][bold]{$entityName}[/bold][/Name][/BubbleHeader] {$verb}, [font="{$fontType}" size={$fontSize} ][color={$color}]"[BubbleContent][font="{$fontType}" size={$fontSize}][color={$color}]{$message}[/color][/font][/BubbleContent]"[/color][/font]
+chat-manager-entity-say-bold-wrap-message = [BubbleHeader][Name][font size=11][color={$color}][bold]{$language}[/bold][/color][/font][bold]{$entityName}[/bold][/Name][/BubbleHeader] {$verb}, [font="{$fontType}" size={$fontSize} ][color={$color}][bold]"[BubbleContent][font="{$fontType}" size={$fontSize}][color={$color}][bold]{$message}[/bold][/color][/font][/BubbleContent]"[/bold][/color][/font]
+
+chat-manager-entity-whisper-wrap-message = [BubbleHeader][Name][font size=10][color={$color}][bold]{$language}[/bold][/color][/font][font size=11][italic]{$entityName}[/Name][/BubbleHeader] whispers, [font="{$fontType}"][color={$color}][italic]"[BubbleContent][font="{$fontType}"][color={$color}][italic]{$message}[/italic][/color][/font][/BubbleContent]"[/italic][/color][/font][/italic][/font]
+chat-manager-entity-whisper-unknown-wrap-message = [BubbleHeader][font size=10][color={$color}][bold]{$language}[/bold][/color][/font][font size=11][italic]Someone[/BubbleHeader] whispers, [font="{$fontType}"][color={$color}][italic]"[BubbleContent][font="{$fontType}"][color={$color}][italic]{$message}[/italic][/color][/font][/BubbleContent]"[/italic][/color][/font][/italic][/font]
 
 # THE() is not used here because the entity and its name can technically be disconnected if a nameOverride is passed...
 chat-manager-entity-me-wrap-message = [italic]{ PROPER($entity) ->
@@ -50,6 +55,11 @@ chat-manager-admin-channel-name = ADMIN
 chat-manager-rate-limited = You are sending messages too quickly!
 chat-manager-rate-limit-admin-announcement = Player { $player } breached chat rate limits. Watch them if this is a regular occurence.
 
+chat-manager-send-empathy-chat-wrap-message = {$source}: {$message}
+
+chat-manager-send-cult-chat-wrap-message = [bold]\[{ $channelName }\] [BubbleHeader]{ $player }[/BubbleHeader]:[/bold] [BubbleContent]{ $message }[/BubbleContent]
+chat-manager-cult-channel-name = Blood Cult
+
 ## Speech verbs for chat
 
 chat-speech-verb-suffix-exclamation = !
@@ -58,66 +68,103 @@ chat-speech-verb-suffix-question = ?
 chat-speech-verb-suffix-stutter = -
 chat-speech-verb-suffix-mumble = ..
 
+chat-speech-verb-name-none = None
+chat-speech-verb-name-default = Default
 chat-speech-verb-default = says
+chat-speech-verb-name-exclamation = Exclaiming
 chat-speech-verb-exclamation = exclaims
+chat-speech-verb-name-exclamation-strong = Yelling
 chat-speech-verb-exclamation-strong = yells
+chat-speech-verb-name-question = Asking
 chat-speech-verb-question = asks
+chat-speech-verb-name-stutter = Stuttering
 chat-speech-verb-stutter = stutters
+chat-speech-verb-name-mumble = Mumbling
 chat-speech-verb-mumble = mumbles
 
+chat-speech-verb-name-arachnid = Arachnid
 chat-speech-verb-insect-1 = chitters
 chat-speech-verb-insect-2 = chirps
 chat-speech-verb-insect-3 = clicks
 
+chat-speech-verb-name-moth = Moth
 chat-speech-verb-winged-1 = flutters
 chat-speech-verb-winged-2 = flaps
 chat-speech-verb-winged-3 = buzzes
 
+chat-speech-verb-name-slime = Slime
 chat-speech-verb-slime-1 = sloshes
 chat-speech-verb-slime-2 = burbles
 chat-speech-verb-slime-3 = oozes
 
+chat-speech-verb-name-plant = Diona
 chat-speech-verb-plant-1 = rustles
 chat-speech-verb-plant-2 = sways
 chat-speech-verb-plant-3 = creaks
 
+chat-speech-verb-name-robotic = Robotic
 chat-speech-verb-robotic-1 = states
 chat-speech-verb-robotic-2 = beeps
+chat-speech-verb-robotic-3 = boops
 
+chat-speech-verb-name-reptilian = Reptilian
 chat-speech-verb-reptilian-1 = hisses
 chat-speech-verb-reptilian-2 = snorts
 chat-speech-verb-reptilian-3 = huffs
 
+chat-speech-verb-name-skeleton = Skeleton
 chat-speech-verb-skeleton-1 = rattles
 chat-speech-verb-skeleton-2 = clacks
 chat-speech-verb-skeleton-3 = gnashes
 
+chat-speech-verb-name-vox = Vox
 chat-speech-verb-vox-1 = screeches
 chat-speech-verb-vox-2 = shrieks
 chat-speech-verb-vox-3 = croaks
 
+chat-speech-verb-name-oni = Oni
+chat-speech-verb-oni-1 = grunts
+chat-speech-verb-oni-2 = bellows
+chat-speech-verb-oni-3 = blares
+chat-speech-verb-oni-4 = rumbles
+
+chat-speech-verb-name-canine = Canine
 chat-speech-verb-canine-1 = barks
 chat-speech-verb-canine-2 = woofs
 chat-speech-verb-canine-3 = howls
 
+chat-speech-verb-name-small-mob = Mouse
 chat-speech-verb-small-mob-1 = squeaks
 chat-speech-verb-small-mob-2 = pieps
 
+chat-speech-verb-name-large-mob = Carp
 chat-speech-verb-large-mob-1 = roars
 chat-speech-verb-large-mob-2 = growls
 
+chat-speech-verb-name-monkey = Monkey
 chat-speech-verb-monkey-1 = chimpers
 chat-speech-verb-monkey-2 = screeches
+
+chat-speech-verb-name-cluwne = Cluwne
+
+chat-speech-verb-name-parrot = Parrot
+chat-speech-verb-parrot-1 = squawks
+chat-speech-verb-parrot-2 = tweets
+chat-speech-verb-parrot-3 = chirps
 
 chat-speech-verb-cluwne-1 = giggles
 chat-speech-verb-cluwne-2 = guffaws
 chat-speech-verb-cluwne-3 = laughs
 
+chat-speech-verb-name-ghost = Ghost
 chat-speech-verb-ghost-1 = complains
 chat-speech-verb-ghost-2 = breathes
 chat-speech-verb-ghost-3 = hums
 chat-speech-verb-ghost-4 = mutters
 
+chat-speech-verb-name-electricity = Electricity
 chat-speech-verb-electricity-1 = crackles
 chat-speech-verb-electricity-2 = buzzes
 chat-speech-verb-electricity-3 = screeches
+
+chat-speech-verb-marish = Mars

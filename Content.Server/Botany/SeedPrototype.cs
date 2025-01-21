@@ -1,17 +1,17 @@
 using Content.Server.Botany.Components;
 using Content.Server.Botany.Systems;
 using Content.Shared.Atmos;
-using Content.Shared.Chemistry.Reagent;
+using Content.Shared.EntityEffects;
+using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.List;
 using Robust.Shared.Utility;
-using Robust.Shared.Audio;
 
 namespace Content.Server.Botany;
 
 [Prototype("seed")]
-public sealed class SeedPrototype : SeedData, IPrototype
+public sealed partial class SeedPrototype : SeedData, IPrototype
 {
     [IdDataField] public string ID { get; private init; } = default!;
 }
@@ -80,7 +80,7 @@ public partial struct SeedChemQuantity
 
 // TODO reduce the number of friends to a reasonable level. Requires ECS-ing things like plant holder component.
 [Virtual, DataDefinition]
-[Access(typeof(BotanySystem), typeof(PlantHolderSystem), typeof(SeedExtractorSystem), typeof(PlantHolderComponent), typeof(ReagentEffect), typeof(MutationSystem))]
+[Access(typeof(BotanySystem), typeof(PlantHolderSystem), typeof(SeedExtractorSystem), typeof(PlantHolderComponent), typeof(EntityEffect), typeof(MutationSystem))]
 public partial class SeedData
 {
     #region Tracking
@@ -205,6 +205,11 @@ public partial class SeedData
     /// </summary>
     [DataField("ligneous")] public bool Ligneous;
 
+    /// <summary>
+    ///     If true, teleports both fruit and player if slippable.
+    /// </summary>
+    [DataField] public bool Teleporting;
+
     // No, I'm not removing these.
     // if you re-add these, make sure that they get cloned.
     //public PlantSpread Spread { get; set; }
@@ -215,7 +220,6 @@ public partial class SeedData
     //public bool Hematophage { get; set; }
     //public bool Thorny { get; set; }
     //public bool Stinging { get; set; }
-    // public bool Teleporting { get; set; }
     // public PlantJuicy Juicy { get; set; }
 
     #endregion
@@ -295,6 +299,7 @@ public partial class SeedData
             Slip = Slip,
             Sentient = Sentient,
             Ligneous = Ligneous,
+            Teleporting = Teleporting,
 
             PlantRsi = PlantRsi,
             PlantIconState = PlantIconState,
@@ -358,6 +363,7 @@ public partial class SeedData
             Slip = Slip,
             Sentient = Sentient,
             Ligneous = Ligneous,
+            Teleporting = Teleporting,
 
             PlantRsi = other.PlantRsi,
             PlantIconState = other.PlantIconState,
