@@ -13,7 +13,13 @@ Space Station 14 is inspired heavily by Space Station 13 and runs on [Robust Too
 As a hard fork, any code sourced from a different upstream cannot ever be merged directly here, and must instead be ported.
 All code present in this repository is subject to change as desired by the council of maintainers.
 
-## Official Server Policy
+## Links
+
+#### Einstein Engines
+[Discord](https://discord.gg/zgQVdEPJ8w)
+
+#### Simplestation 14
+[Website](https://simplestation.org/) | [Wiki](Pending) | [Discord](https://discord.gg/49KeKwXc8g)
 
 **No official servers will ever be made for Einstein-Engines**.
 
