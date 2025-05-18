@@ -21,7 +21,8 @@
       accessLevels:
       - Armory
       - Atmospherics
-      - Bar
+      - BasicSilicon
+      - Borg
       #- Brig #Delta V: Removed Brig Access
       - Boxer #Delta V: Add Boxer Access
       - Detective
@@ -56,11 +57,13 @@
       - Salvage
       - Security
       - Service
+      - StationAi
       - Theatre
       - Zookeeper #Delta V: Add Zookeeper Access
       - ChiefJustice  #Delta V: Add Chief Justice Access
       - Prosecutor  #Delta V: Add Prosecutor Access
       - Justice  #Delta V: Add Justice Access
+      - Clerk  #Delta V: Add Clerk Access
       privilegedIdSlot:
         name: id-card-console-privileged-id
         ejectSound: /Audio/Machines/id_swipe.ogg
@@ -86,3 +89,14 @@
     - type: ContainerContainer
       containers:
         AccessOverrider-privilegedId: !type:ContainerSlot
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "-0.25,-0.25,0.25,0.25"
+          density: 12
+          mask:
+          - ItemMask
+          restitution: 0.3
+          friction: 0.2

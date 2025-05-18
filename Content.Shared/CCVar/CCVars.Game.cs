@@ -45,7 +45,7 @@ public sealed partial class CCVars
     ///     The preset for the game to fall back to if the selected preset could not be used, and fallback is enabled.
     /// </summary>
     public static readonly CVarDef<string>
-        GameLobbyFallbackPreset = CVarDef.Create("game.fallbackpreset", "Traitor,Extended", CVar.ARCHIVE);
+        GameLobbyFallbackPreset = CVarDef.Create("game.fallbackpreset", "Extended", CVar.ARCHIVE);
 
     /// <summary>
     ///     Controls if people can win the game in Suspicion or Deathmatch.
@@ -385,6 +385,14 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<string> RoundEndSoundCollection =
         CVarDef.Create("game.round_end_sound_collection", "RoundEnd", CVar.SERVERONLY);
+
+    /// <summary>
+    /// Whether or not to add every player as a global override to PVS at round end.
+    /// This will allow all players to see their clothing in the round screen player list screen,
+    /// but may cause lag during round end with very high player counts.
+    /// </summary>
+    public static readonly CVarDef<bool> RoundEndPVSOverrides =
+        CVarDef.Create("game.round_end_pvs_overrides", true, CVar.SERVERONLY);
 
     /// <summary>
     /// Set to true to enable the dynamic hostname system.

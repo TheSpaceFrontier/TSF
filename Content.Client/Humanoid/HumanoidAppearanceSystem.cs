@@ -205,6 +205,9 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         humanoid.CustomBaseLayers = customBaseLayers;
         humanoid.Sex = profile.Sex;
         humanoid.Gender = profile.Gender;
+        humanoid.DisplayPronouns = profile.DisplayPronouns;
+        humanoid.StationAiName = profile.StationAiName;
+        humanoid.CyborgName = profile.CyborgName;
         humanoid.Age = profile.Age;
         humanoid.Species = profile.Species;
         humanoid.SkinColor = profile.Appearance.SkinColor;
@@ -285,9 +288,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         SpriteComponent sprite)
     {
         if (!sprite.LayerMapTryGet(markingPrototype.BodyPart, out int targetLayer))
-        {
             return;
-        }
 
         visible &= !IsHidden(humanoid, markingPrototype.BodyPart);
         visible &= humanoid.BaseLayers.TryGetValue(markingPrototype.BodyPart, out var setting)
@@ -298,9 +299,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             var markingSprite = markingPrototype.Sprites[j];
 
             if (markingSprite is not SpriteSpecifier.Rsi rsi)
-            {
                 continue;
-            }
 
             var layerId = $"{markingPrototype.ID}-{rsi.RsiState}";
 
@@ -314,21 +313,19 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             sprite.LayerSetVisible(layerId, visible);
 
             if (!visible || setting == null) // this is kinda implied
-            {
                 continue;
-            }
 
             // Okay so if the marking prototype is modified but we load old marking data this may no longer be valid
             // and we need to check the index is correct.
             // So if that happens just default to white?
             if (colors != null && j < colors.Count)
-            {
                 sprite.LayerSetColor(layerId, colors[j]);
-            }
             else
-            {
                 sprite.LayerSetColor(layerId, Color.White);
-            }
+
+            var shaders = markingPrototype.Shaders;
+            if (shaders is not null && shaders.ContainsKey(rsi.RsiState))
+                sprite.LayerSetShader(layerId, shaders[rsi.RsiState]);
         }
     }
 

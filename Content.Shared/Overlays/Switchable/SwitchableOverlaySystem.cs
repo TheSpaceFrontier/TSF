@@ -1,3 +1,4 @@
+using Content.Shared._Goobstation.Flashbang;
 using Content.Shared.Actions;
 using Content.Shared.Inventory;
 using Robust.Shared.Audio.Systems;
@@ -26,6 +27,29 @@ public abstract class SwitchableOverlaySystem<TComp, TEvent> : EntitySystem
         SubscribeLocalEvent<TComp, GetItemActionsEvent>(OnGetItemActions);
         SubscribeLocalEvent<TComp, ComponentGetState>(OnGetState);
         SubscribeLocalEvent<TComp, ComponentHandleState>(OnHandleState);
+        SubscribeLocalEvent<TComp, FlashDurationMultiplierEvent>(OnGetFlashMultiplier);
+        SubscribeLocalEvent<TComp, InventoryRelayedEvent<FlashDurationMultiplierEvent>>(OnGetInventoryFlashMultiplier);
+    }
+
+    private void OnGetFlashMultiplier(Entity<TComp> ent, ref FlashDurationMultiplierEvent args)
+    {
+        if (!ent.Comp.IsEquipment)
+            args.Multiplier *= GetFlashMultiplier(ent);
+    }
+
+    private void OnGetInventoryFlashMultiplier(Entity<TComp> ent,
+        ref InventoryRelayedEvent<FlashDurationMultiplierEvent> args)
+    {
+        if (ent.Comp.IsEquipment)
+            args.Args.Multiplier *= GetFlashMultiplier(ent);
+    }
+
+    private float GetFlashMultiplier(TComp comp)
+    {
+        if (!comp.IsActive && (comp.PulseTime <= 0f || comp.PulseAccumulator >= comp.PulseTime))
+            return 1f;
+
+        return comp.FlashDurationMultiplier;
     }
 
     public override void FrameUpdate(float frameTime)
@@ -53,8 +77,10 @@ public abstract class SwitchableOverlaySystem<TComp, TEvent> : EntitySystem
             if (comp.PulseTime <= 0f || comp.PulseAccumulator >= comp.PulseTime)
                 continue;
 
+            // The accumulator is for visually rendering the pulse strength decaying.
             comp.PulseAccumulator += frameTime;
 
+            // This line is for the actual check that shuts off the pulse when its time is up.
             if (comp.PulseAccumulator < comp.PulseTime)
                 continue;
 
@@ -117,7 +143,7 @@ public abstract class SwitchableOverlaySystem<TComp, TEvent> : EntitySystem
     {
         if (component.IsEquipment)
             return;
-            
+
         _actions.RemoveAction(uid, component.ToggleActionEntity);
     }
 

@@ -39,9 +39,9 @@
       types:
         Blunt: 8
     bluntStaminaDamageFactor: 2.5
-    heavyRateModifier: 1.25
+    heavyRateModifier: 1.5
     heavyDamageBaseModifier: 1.5
-    heavyStaminaCost: 10
+    heavyStaminaCost: 2.5
     maxTargets: 3
     angle: 100
     soundHit:
@@ -63,6 +63,17 @@
     qualities:
     - Rolling
     speedModifier: 0.6 # fairly unwieldly but nice round surface
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        density: 105
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
 
 - type: entity
   parent: GasTankRoundBase
@@ -120,6 +131,17 @@
   - type: PhysicalComposition
     materialComposition:
       Steel: 100
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        density: 45
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
 
 - type: entity
   parent: EmergencyOxygenTank
@@ -129,6 +151,19 @@
   components:
   - type: Sprite
     sprite: Objects/Tanks/emergency_red.rsi
+  - type: Item
+    sprite: Objects/Tanks/emergency_red.rsi
+  - type: Clothing
+    sprite: Objects/Tanks/emergency_red.rsi
+
+- type: entity
+  parent: EmergencyOxygenTank
+  id: EmergencyPlasmaTank
+  name: emergency plasma tank
+  description: An easily portable tank for emergencies. Contains very little plasma, rated for survival use only.
+  components:
+  - type: Sprite
+    sprite: Objects/Tanks/emergency_red.rsi # TODO: emergency plasma tank sprite
   - type: Item
     sprite: Objects/Tanks/emergency_red.rsi
   - type: Clothing
@@ -150,6 +185,17 @@
       temperature: 293.15
   - type: Clothing
     sprite: Objects/Tanks/emergency_extended.rsi
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        density: 65
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
 
 - type: entity
   parent: ExtendedEmergencyOxygenTank
@@ -159,6 +205,19 @@
   components:
   - type: Sprite
     sprite: Objects/Tanks/emergency_extended_red.rsi
+  - type: Item
+    sprite: Objects/Tanks/emergency_extended_red.rsi
+  - type: Clothing
+    sprite: Objects/Tanks/emergency_extended_red.rsi
+
+- type: entity
+  parent: ExtendedEmergencyOxygenTank
+  id: ExtendedEmergencyPlasmaTank
+  name: extended-capacity emergency plasma tank
+  description: An emergency tank with extended capacity. Technically rated for prolonged use.
+  components:
+  - type: Sprite
+    sprite: Objects/Tanks/emergency_extended_red.rsi # TODO: extended-capacity emergency plasma tank sprite
   - type: Item
     sprite: Objects/Tanks/emergency_extended_red.rsi
   - type: Clothing
@@ -187,6 +246,17 @@
         Blunt: 7.5
   - type: DamageOtherOnHit
     staminaCost: 5
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        density: 90
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
 
 - type: entity
   parent: DoubleEmergencyOxygenTank
@@ -200,6 +270,19 @@
     sprite: Objects/Tanks/emergency_double_red.rsi
   - type: Clothing
     sprite: Objects/Tanks/emergency_double_red.rsi
+
+- type: entity
+  parent: DoubleEmergencyOxygenTank
+  id: DoubleEmergencyPlasmaTank
+  name: plasma internals tank
+  description: A tank of plasma designed to be internals for Plasmamen.
+  components:
+  - type: Sprite
+    sprite: Objects/Tanks/plasmaman.rsi
+  - type: Item
+    sprite: Objects/Tanks/plasmaman.rsi
+  - type: Clothing
+    sprite: Objects/Tanks/plasmaman.rsi
 
 - type: entity
   parent: EmergencyOxygenTank
@@ -243,7 +326,7 @@
   parent: GasTankBase
   id: PlasmaTank
   name: plasma tank
-  description: Contains dangerous plasma. Do not inhale. Extremely flammable.
+  description: Contains dangerous plasma. Do not inhale, unless you're a plasmaman. Extremely flammable.
   components:
   - type: Sprite
     sprite: Objects/Tanks/plasma.rsi

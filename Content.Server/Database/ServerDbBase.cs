@@ -224,11 +224,17 @@ namespace Content.Server.Database
                 profile.FlavorText,
                 profile.Species,
                 profile.CustomSpecieName,
+                profile.Nationality,
+                profile.Employer,
+                profile.Lifepath,
                 profile.Height,
                 profile.Width,
                 profile.Age,
                 sex,
                 gender,
+                profile.DisplayPronouns,
+                profile.StationAiName,
+                profile.CyborgName,
                 new HumanoidCharacterAppearance(
                     profile.HairName,
                     Color.FromHex(profile.HairColor),
@@ -268,9 +274,15 @@ namespace Content.Server.Database
             profile.FlavorText = humanoid.FlavorText;
             profile.Species = humanoid.Species;
             profile.CustomSpecieName = humanoid.Customspeciename;
+            profile.Nationality = humanoid.Nationality;
+            profile.Employer = humanoid.Employer;
+            profile.Lifepath = humanoid.Lifepath;
             profile.Age = humanoid.Age;
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();
+            profile.DisplayPronouns = humanoid.DisplayPronouns;
+            profile.StationAiName = humanoid.StationAiName;
+            profile.CyborgName = humanoid.CyborgName;
             profile.Height = humanoid.Height;
             profile.Width = humanoid.Width;
             profile.HairName = appearance.HairStyleId;

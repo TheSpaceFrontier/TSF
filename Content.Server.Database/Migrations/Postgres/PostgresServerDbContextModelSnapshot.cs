@@ -854,6 +854,19 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("custom_specie_name");
 
+                    b.Property<string>("CyborgName")
+                        .HasColumnType("text")
+                        .HasColumnName("cyborg_name");
+
+                    b.Property<string>("DisplayPronouns")
+                        .HasColumnType("text")
+                        .HasColumnName("display_pronouns");
+
+                    b.Property<string>("Employer")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("employer");
+
                     b.Property<string>("EyeColor")
                         .IsRequired()
                         .HasColumnType("text")
@@ -893,9 +906,19 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("real")
                         .HasColumnName("height");
 
+                    b.Property<string>("Lifepath")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("lifepath");
+
                     b.Property<JsonDocument>("Markings")
                         .HasColumnType("jsonb")
                         .HasColumnName("markings");
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("nationality");
 
                     b.Property<int>("PreferenceId")
                         .HasColumnType("integer")
@@ -927,6 +950,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("species");
+
+                    b.Property<string>("StationAiName")
+                        .HasColumnType("text")
+                        .HasColumnName("station_ai_name");
 
                     b.Property<float>("Width")
                         .HasColumnType("real")

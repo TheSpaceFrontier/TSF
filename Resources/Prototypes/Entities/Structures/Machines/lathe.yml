@@ -49,6 +49,8 @@
     price: 800
   - type: ResearchClient
   - type: TechnologyDatabase
+  - type: Speech # Goobstation - Lathe message on recipes update
+    speechSounds: Lathe
 
 # a lathe that can be sped up with space lube / slowed down with glue
 - type: entity
@@ -129,6 +131,7 @@
     - Crowbar
     - Multitool
     - NetworkConfigurator
+    - AccessConfigurator
     - SprayPainter
     - FlashlightLantern
     - CableStack
@@ -147,6 +150,7 @@
     - SheetRGlass
     - Beaker
     - Syringe
+    - DisposableSyringe
     - HandLabeler
     - LightTube
     - LedLightTube
@@ -198,6 +202,7 @@
     - CellRechargerCircuitboard
     - BorgChargerCircuitboard
     - WeaponCapacitorRechargerCircuitboard
+    - HydroponicsTrayMachineCircuitboard
     - HandheldStationMap
     - ClothingHeadHatWelding
     - ProgramDiskUnburnt # Arcadis - Modular Computer System
@@ -211,12 +216,16 @@
     - NekomimeticTranslator
     - DraconicTranslator
     - SolCommonTranslator
+    - NovuNedericTranslator
     - RootSpeakTranslator
     - BasicGalaticCommonTranslatorImplanter
     - MofficTranslator
+    - N14MaterialCircuitry
+    - VehicleWheelchairFolded # Goobstation
   - type: EmagLatheRecipes
     emagStaticRecipes:
     - BoxLethalshot
+    - BoxShotgunLumen
     - BoxShotgunFlare
     - BoxShotgunSlug
     - MagazineBoxLightRifle
@@ -239,12 +248,37 @@
     - RiotShield
     - SpeedLoaderMagnum
     - SpeedLoaderMagnumEmpty
-    - MagazinePistolCaselessRifle # Goobstation
-    - MagazineBoxCaselessRifle # Goobstation
+    - MagazineLightRifleMarkOneEmpty
+    - MagazineLightRifleMarkOne
+    - GrenadeFlashBang # Goobstation
+    # .35 Caseless Pistol
+    - MagazinePistolCaselessRiflePractice # EE
+    - MagazinePistolCaselessRifle # EE
+    - MagazinePistolCaselessRifleRubber # EE
+    # .35 Caseless (Civilian) Rifle
+    - MagazineCaselessRifleShortPractice # EE
+    - MagazineCaselessRifleShort # EE
+    - MagazineCaselessRifleShortRubber # EE
+    # .35 Caseless (Military) Rifle
+    - MagazineCaselessRiflePractice # EE
+    - MagazineCaselessRifle # EE
+    - MagazineCaselessRifleRubber # EE
+    # .35 Caseless (Box Mag) Rifle
+    - MagazineBoxCaselessRiflePractice # EE
+    - MagazineBoxCaselessRifle # EE
+    - MagazineBoxCaselessRifleRubber # EE
     - MagazineMagnumEmpty # Goobstation
     - MagazineMagnum # Goobstation
     - MagazineMagnumLeverRifleEmpty # Goobstation
     - MagazineMagnumLeverRifle # Goobstation
+    - CartridgeEpinephrine # Goobstation
+    - CartridgeBicaridine # Goobstation
+    - CartridgeDermaline # Goobstation
+    - CartridgeEphedrine # Goobstation
+    - CartridgeAtropine # Goobstation
+    - CartridgePuncturase # Goobstation
+    - SecHypo # Goobstation
+    - ParamedHypo # Goobstation - ParamedHypo
 
 - type: entity
   id: AutolatheHyperConvection
@@ -295,6 +329,7 @@
     - LargeBeaker
     - Dropper
     - ClothingEyesGlassesChemical
+    - N14MaterialCircuitry
     dynamicRecipes:
     - PowerDrill
     - MiningDrill
@@ -314,6 +349,7 @@
     - CryostasisBeaker
     - SyringeCryostasis
     - Syringe
+    - DisposableSyringe
     - Implanter
     - PillCanister
     - ChemistryEmptyBottle01
@@ -339,6 +375,7 @@
     - VoiceTrigger
     - Igniter
     - HandHeldMassScanner
+    - PowerCellMicrortg
     - PowerCellMicroreactor
     - PowerCellHigh
     - WeaponPistolCHIMP
@@ -346,7 +383,7 @@
     - WeaponGauntletGorilla
     - SynthesizerInstrument
     - RPED
-    - ClothingShoesBootsMagSci
+    - ClothingShoesBootsMag
     - ClothingShoesBootsMoon
     - ClothingShoesBootsSpeed
     - ClothingShoesBootsMagAdv
@@ -354,11 +391,12 @@
     - HolofanProjector
     - BluespaceBeaker
     - SyringeBluespace
-    - WeaponForceGun
+  #  - WeaponForceGun
     - WeaponLaserSvalinn
+    - WeaponCivilianDisabler
     - WeaponProtoKineticAccelerator
-    - WeaponTetherGun
-    - WeaponGrapplingGun
+  #  - WeaponTetherGun
+  #  - WeaponGrapplingGun
     - ClothingBackpackHolding
     - ClothingBackpackSatchelHolding
     - ClothingBackpackDuffelHolding
@@ -367,6 +405,9 @@
     - CoreSilver # Nyanotrasen - Silver Golem core
     - OreBagOfHolding
     - DeviceQuantumSpinInverter
+    - PKAUpgradeDamage # Lavaland Change
+    - PKAUpgradeRange # Lavaland Change
+    - PKAUpgradeFireRate # Lavaland Change
     - XenoTranslator
     - AdvancedGalaticCommonTranslatorImplanter
     - BubblishTranslatorImplanter
@@ -382,10 +423,12 @@
     - ClothingEyesThermalVisionGoggles
     - RCDAmmo #DeltaV
     - RCD #EE
+    - RPD
     # Shitmed Change
     - EnergyScalpel
     - EnergyCautery
     - AdvancedRetractor
+    - VehicleWheelchairFolded # Goobstation
   - type: EmagLatheRecipes
     emagDynamicRecipes:
     - BoxBeanbag
@@ -469,6 +512,7 @@
     staticRecipes:
     - ProtolatheMachineCircuitboard
     - AutolatheMachineCircuitboard
+    - BookPressMachineCircuitboard
     - CircuitImprinterMachineCircuitboard
     - OreProcessorMachineCircuitboard
     - MaterialReclaimerMachineCircuitboard
@@ -478,6 +522,7 @@
     - ChemMasterMachineCircuitboard
     - CondenserMachineCircuitBoard
     - HotplateMachineCircuitboard
+    - PrinterDocMachineCircuitboard  # Corvax-Printer
     - UniformPrinterMachineCircuitboard
     - FloorGreenCircuit
     - FloorBlueCircuit
@@ -490,12 +535,13 @@
     - SpaceHeaterMachineCircuitBoard
     - StationAnchorCircuitboard
     - SeedExtractorMachineCircuitboard
-    - HydroponicsTrayMachineCircuitboard
     - ReagentGrinderIndustrialMachineCircuitboard
     - StasisBedMachineCircuitboard
     - CryoPodMachineCircuitboard
+    - N14MaterialCircuitry
     dynamicRecipes:
     - ThermomachineFreezerMachineCircuitBoard
+    - DroneElectronics
     - HellfireFreezerMachineCircuitBoard
     - PortableScrubberMachineCircuitBoard
     - CloningPodMachineCircuitboard
@@ -573,8 +619,16 @@
     - SalvageExpeditionsComputerCircuitboard
     - JukeboxCircuitBoard
     - AutodocCircuitboard # Shitmed Change
-    - OperatingTableCircuitboard # Shitmed Change
+#    - OperatingTableCircuitboard # Shitmed Change
     - MaterialSiloCircuitboard
+    - GygaxCentralElectronics
+    - GygaxPeripheralsElectronics
+    - GygaxTargetingElectronics
+    - DurandCentralElectronics
+    - DurandPeripheralsElectronics
+    - DurandTargetingElectronics
+    - ClarkeCentralElectronics
+    - ClarkePeripheralsElectronics
     - SMESAdvancedMachineCircuitboard
     - BaseComputerModularCircuitBoard # Arcadis - Modular Computer System
     - DiskBurnerMachineCircuitboard # Arcadis - Modular Computer System
@@ -676,12 +730,16 @@
     - RightLegBorgService
     - HeadBorgService
     - TorsoBorgService
+    - MechAirTank # Goobstation
+    - MechThruster # Goobstation
+    - PowerCageMedium # Goobstation - Powercell to exosuit fab
+    - PowerCageSmall # Goobstation - Powercell to exosuit fab
     dynamicRecipes:
     - ProximitySensor
     - BorgModuleLightReplacer
     - BorgModuleAdvancedCleaning
     - BorgModuleMining
-    - BorgModuleGrapplingGun
+  #  - BorgModuleGrapplingGun
     - BorgModuleAdvancedTool
     - BorgModuleGPS
     - BorgModuleRCD
@@ -707,6 +765,8 @@
     - RipleyRArm
     - RipleyLLeg
     - RipleyRLeg
+    - RipleyMKIIHarness
+    - RipleyUpgradeKit
     - MechEquipmentGrabber
     - HonkerHarness
     - HonkerLArm
@@ -725,6 +785,50 @@
     - JetpackBlue
     - JetpackMini
   # End Nyano additions
+    - ClarkeHarness
+    - ClarkeHead
+    - ClarkeLArm
+    - ClarkeRArm
+    - ClarkeTreads
+    - DurandHarness
+    - DurandArmor
+    - DurandHead
+    - DurandLArm
+    - DurandLLeg
+    - DurandRArm
+    - DurandRLeg
+    - GygaxHarness
+    - GygaxArmor
+    - GygaxHead
+    - GygaxLArm
+    - GygaxLLeg
+    - GygaxRArm
+    - GygaxRLeg
+    - MechEquipmentDrill
+    - MechEquipmentDrillDiamond
+    - MechEquipmentKineticAccelerator
+    - MechEquipmentHonkerBananaMortar
+    - MechEquipmentHonkerMousetrapMortar
+    # Goobstation - Modsuits
+    - ModsuitChestplate
+    - ModsuitBoots
+    - ModsuitHelmet
+    - ModsuitGauntlets
+    - ModsuitShell
+    - ModsuitPlatingExternal
+    - PowerCageHigh # Goobstation - Powercell to exosuit fab
+    - ReverseMMI # IPCMMI
+  - type: EmagLatheRecipes
+    emagDynamicRecipes:
+    - WeaponMechCombatImmolationGun
+    - WeaponMechCombatSolarisLaser
+    - WeaponMechCombatFiredartLaser
+    - WeaponMechCombatUltraRifle
+    - WeaponMechCombatShotgun
+    - WeaponMechCombatShotgunIncendiary
+    - WeaponMechCombatDisabler
+    - WeaponMechCombatFlashbangLauncher
+    - WeaponMechCombatMissileRack8
   - type: MaterialStorage
     whitelist:
       tags:
@@ -751,16 +855,20 @@
     layers:
     - state: icon
       map: ["enum.LatheVisualLayers.IsRunning"]
+      color: "#ffaa99"
     - state: unlit
       shader: unshaded
       map: ["enum.PowerDeviceVisualLayers.Powered"]
+      color: "#ffaaaa"
     - state: inserting
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
+      color: "#ffaaaa"
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
   - type: Machine
     board: BiofabricatorMachineCircuitboard
   - type: MaterialStorage
+    ignoreColor: true
     whitelist:
       tags:
       - Sheet
@@ -813,6 +921,7 @@
     runningState: icon
     staticRecipes:
       - BoxLethalshot
+      - BoxShotgunLumen
       - BoxShotgunFlare
       - BoxShotgunPractice
       - BoxShotgunSlug
@@ -823,6 +932,7 @@
       - Handcuffs
       - ShellShotgun
       - ShellShotgunSlug
+      - ShellShotgunLumen
       - ShellShotgunFlare
       - ShellTranquilizer
       - MagazineBoxLightRifle
@@ -842,6 +952,22 @@
       - MagazinePistolSubMachineGunEmpty
       - MagazinePistolSubMachineGunTopMounted
       - MagazinePistolSubMachineGunTopMountedEmpty
+      # .35 Caseless Pistol
+      - MagazinePistolCaselessRiflePractice # EE
+      - MagazinePistolCaselessRifle # EE
+      - MagazinePistolCaselessRifleRubber # EE
+      # .35 Caseless (Civilian) Rifle
+      - MagazineCaselessRifleShortPractice # EE
+      - MagazineCaselessRifleShort # EE
+      - MagazineCaselessRifleShortRubber # EE
+      # .35 Caseless (Military) Rifle
+      - MagazineCaselessRiflePractice # EE
+      - MagazineCaselessRifle # EE
+      - MagazineCaselessRifleRubber # EE
+      # .35 Caseless (Box Mag) Rifle
+      - MagazineBoxCaselessRiflePractice # EE
+      - MagazineBoxCaselessRifle # EE
+      - MagazineBoxCaselessRifleRubber # EE
       - MagazineMagnum
       - MagazineMagnumEmpty
       - MagazineRifle
@@ -862,6 +988,7 @@
       - WeaponFlareGunSecurity
       - WeaponLaserCarbinePractice
       - Zipties
+      - GrenadeFlashBang # Goobstation
       - ShockCollar
       # DeltaV - .38 special ammo - Add various .38 special ammo to security techfab
       - MagazineBoxSpecial
@@ -884,9 +1011,48 @@
       - TelescopicShield
       - HoloprojectorSecurity
       - BolaEnergy
+      - ClothingHeadHelmetBasic
+      - MagazineShotgunBeanbag
+      - ShellTranquilizer
+      - CartridgeEpinephrine # Goobstation
+      - CartridgeBicaridine # Goobstation
+      - CartridgeDermaline # Goobstation
+      - CartridgeAtropine # Goobstation
+      - CartridgeSaline # Goobstation
+      - SecHypo # Goobstation
+      - BoxBeanbag
+      - CartridgePistolRubber
+      - CartridgeMagnumRubber
+      - CartridgeLightRifleRubber
+      - CartridgeRifleRubber
+      - MagazineRifleRubber
+      - MagazinePistolRubber
+      - MagazinePistolSubMachineGunRubber
+      - MagazineMagnumRubber
+      - MagazineLightRifleRubber
+      - SpeedLoaderMagnumRubber
+      - MagazineBoxPistolRubber
+      - MagazineBoxMagnumRubber
+      - MagazineBoxLightRifleRubber
+      - MagazineBoxRifleRubber
+      - CartridgeSpecialRubber
+      - MagazineBoxSpecialRubber
+      - MagazineBoxLightRifleRubber # Frontier
+      - MagazineBoxMagnumRubber # Frontier
+      - MagazineBoxPistolRubber # Frontier
+      - MagazineBoxRifleRubber # Frontier
+      - SpeedLoaderRifleHeavyRubber
+      - BoxShotgunBirdshot
+      - BoxShotgun00Buckshot
+      - BoxShotgun0000Buckshot
+      - MagazineUniversalMagnumEmpty
+      - MagazineUniversalMagnum
+      - MagazineUniversalMagnumRubber
+      - MagazineLightRifleMarkOneEmpty
+      - MagazineLightRifleMarkOne
     dynamicRecipes:
       - Truncheon
-      - BoxBeanbag
+      - Terminus
       - BoxShotgunIncendiary
       - BoxShotgunUranium
       - EncryptionKeySyndie
@@ -898,10 +1064,6 @@
       - CartridgeMagnumUranium
       - CartridgePistolUranium
       - CartridgeRifleUranium
-      - CartridgeLightRifleRubber
-      - CartridgeMagnumRubber
-      - CartridgePistolRubber
-      - CartridgeRifleRubber
       - ExplosivePayload
       - FlashPayload
       - GrenadeBlast
@@ -916,43 +1078,30 @@
       - MagazineBoxRifleIncendiary
       - MagazineBoxRifleUranium
       - ShellSoulbreaker
-      - MagazineBoxLightRifleRubber
-      - MagazineBoxMagnumRubber
-      - MagazineBoxPistolRubber
-      - MagazineBoxRifleRubber
       - MagazineGrenadeEmpty
-      - MagazineLightRifleRubber
       - MagazineLightRifleIncendiary
       - MagazineLightRifleUranium
-      - MagazinePistolRubber
       - MagazinePistolIncendiary
       - MagazinePistolUranium
-      - MagazinePistolSubMachineGunRubber
       - MagazinePistolSubMachineGunIncendiary
       - MagazinePistolSubMachineGunUranium
-      - MagazineMagnumRubber
       - MagazineMagnumIncendiary
       - MagazineMagnumUranium
-      - MagazineRifleRubber
       - MagazineRifleIncendiary
       - MagazineRifleUranium
-      - MagazineShotgunBeanbag
       - MagazineShotgunIncendiary
       - PortableRecharger
       - PowerCageHigh
       - PowerCageMedium
       - PowerCageSmall
-      - ShellTranquilizer
       - ShuttleGunDusterCircuitboard
       - ShuttleGunFriendshipCircuitboard
       - ShuttleGunPerforatorCircuitboard
       - ShuttleGunSvalinnMachineGunCircuitboard
       - Signaller
       - SignalTrigger
-      - SpeedLoaderMagnumRubber
       - SpeedLoaderMagnumIncendiary
       - SpeedLoaderMagnumUranium
-      - SpeedLoaderRifleHeavyRubber
       - SpeedLoaderRifleHeavyIncendiary
       - SpeedLoaderRifleHeavyUranium
       - TimerTrigger
@@ -971,12 +1120,10 @@
       - WeaponEnergyGunMini
       - WeaponEnergyGunPistol
       - WeaponGunLaserCarbineAutomatic
-      - CartridgeSpecialRubber
       - CartridgeSpecialIncendiary
       - CartridgeSpecialUranium
       - CartridgeSpecialHoly
       - CartridgeSpecialMindbreaker
-      - MagazineBoxSpecialRubber
       - MagazineBoxSpecialIncendiary
       - MagazineBoxSpecialUranium
       - MagazineBoxSpecialMindbreaker
@@ -986,8 +1133,50 @@
       - ClothingOuterHardsuitCombatMedical
       - ClothingOuterHardsuitCombatRiot
       - ClothingOuterHardsuitCombatAdvanced
-      - ClothingOuterHardsuitSyndieReverseEngineered
+      - ClothingOuterHardsuitShanlinUnpainted
+      - ClothingOuterHardsuitShiweiUnpainted
       - ClothingOuterHardsuitJuggernautReverseEngineered
+      - WeaponMechCombatImmolationGun
+      - WeaponMechCombatSolarisLaser
+      - WeaponMechCombatFiredartLaser
+      - WeaponMechCombatUltraRifle
+      - WeaponMechCombatShotgun
+      - WeaponMechCombatShotgunIncendiary
+      - WeaponMechCombatDisabler
+      - WeaponMechCombatFlashbangLauncher
+      - WeaponMechCombatMissileRack8
+      - EnergySword
+      - EnergySwordDouble
+      - EnergyCutlass
+      - WeaponEnergyTurretAIMachineCircuitboard
+      - WeaponEnergyTurretStationMachineCircuitboard
+      - WeaponEnergyTurretAIControlPanelElectronics
+      - WeaponEnergyTurretStationControlPanelElectronics
+      - WeaponSubMachineGunFPA90
+      - WeaponSubMachineGunBRDIR25
+      - WeaponPistolMk58
+      - WeaponPistolN1984
+      - WeaponPistolViper
+      - WeaponPistolCobra
+      - MagazineRifleShrapnel
+      - MagazinePistolShrapnel
+      - MagazinePistolSubMachineGunShrapnel
+      - MagazineMagnumShrapnel
+      - MagazineLightRifleShrapnel
+      - MagazineCaselessRifleShrapnel
+      - MagazineCaselessRifleIncendiary
+      - MagazineCaselessRifleUranium
+      - MagazineBoxPistolShrapnel
+      - MagazineBoxMagnumShrapnel
+      - MagazineBoxLightRifleShrapnel
+      - MagazineBoxRifleShrapnel
+      - MagazineBoxCaselessRifleShrapnel
+      - MagazineBoxCaselessRifleIncendiary
+      - MagazineBoxCaselessRifleUranium
+      - MagazineUniversalMagnumUranium
+      - MagazineUniversalMagnumIncendiary
+      - MagazineUniversalMagnumShrapnel
+      - WeaponPistolUniversal
   - type: MaterialStorage
     whitelist:
       tags:
@@ -1025,6 +1214,7 @@
       runningState: icon
       staticRecipes:
         - BoxLethalshot
+        - BoxShotgunLumen
         - BoxShotgunFlare
         - BoxShotgunSlug
         - MagazineBoxLightRifle
@@ -1049,6 +1239,24 @@
         - SpeedLoaderRifleHeavyEmpty
         - CartridgeSpecial
         - MagazineBoxSpecial
+        # .35 Caseless Pistol
+        - MagazinePistolCaselessRiflePractice # EE
+        - MagazinePistolCaselessRifle # EE
+        - MagazinePistolCaselessRifleRubber # EE
+        # .35 Caseless (Civilian) Rifle
+        - MagazineCaselessRifleShortPractice # EE
+        - MagazineCaselessRifleShort # EE
+        - MagazineCaselessRifleShortRubber # EE
+        # .35 Caseless (Military) Rifle
+        - MagazineCaselessRiflePractice # EE
+        - MagazineCaselessRifle # EE
+        - MagazineCaselessRifleRubber # EE
+        # .35 Caseless (Box Mag) Rifle
+        - MagazineBoxCaselessRiflePractice # EE
+        - MagazineBoxCaselessRifle # EE
+        - MagazineBoxCaselessRifleRubber # EE
+        - MagazineLightRifleMarkOneEmpty
+        - MagazineLightRifleMarkOne
     - type: MaterialStorage
       whitelist:
         tags:
@@ -1098,6 +1306,7 @@
     - Dropper
     - Jug
     - Syringe
+    - DisposableSyringe
     - Implanter
     - PillCanister
     - BodyBag
@@ -1121,6 +1330,15 @@
     - Hemostat
     - ClothingEyesGlassesChemical
     - BoneGel # Shitmed Change
+    - AACTablet # DeltaV
+    - VehicleWheelchairFolded # Goobstation - Vehicles
+    - SyringeCase # Morphine
+    - CartridgeAtropine # Goobstation - ParamedHypo
+    - CartridgeEpinephrine # Goobstation - ParamedHypo
+    - CartridgeBicaridine # Goobstation - ParamedHypo
+    - CartridgeDermaline # Goobstation - ParamedHypo
+    - CartridgeSaline # Goobstation - ParamedHypo
+    - ParamedHypo # Goobstation - ParamedHypo
     dynamicRecipes:
     - ChemicalPayload
     - CryostasisBeaker
@@ -1130,12 +1348,18 @@
     - ChemicalPayload # Nyano
     - SyringeCryostasis
     - ClothingEyesNightVisionMedicalGoggles
+    - EnvirosuitExtinguisherRefill
     # Shitmed Change
     - EnergyScalpel
     - EnergyCautery
     - AdvancedRetractor
     - OmnimedTool
     - MedicalCyberneticEyes
+  - type: EmagLatheRecipes
+    emagStaticRecipes:
+    - CartridgeEphedrine
+    - CartridgePuncturase
+    - CartridgeTirizene
   - type: Machine
     board: MedicalTechFabCircuitboard
   - type: StealTarget
@@ -1412,6 +1636,15 @@
     - IngotGold1
     - IngotSilver1
     - MaterialBananium1
+    - N14IngotLead1
+    - IngotCopper1
+    - N14IngotAluminium1
+    - IngotTungsten1
+    # Additional recipes
+    - SheetPlasteel1
+    - SheetUGlass1
+    - SheetRUGlass1
+    - MaterialDiamond
   - type: MaterialStorageMagnetPickup # Delta V - Summary: Adds magnet pull from Frontier
     magnetEnabled: True
     range: 0.30 # Delta V - End Magnet Pull
@@ -1433,23 +1666,6 @@
   - type: Lathe
     materialUseMultiplier: 0.75
     timeMultiplier: 0.5
-    staticRecipes:
-    - BluespaceCrystal
-    - NormalityCrystal
-    - SheetSteel
-    - SheetGlass1
-    - SheetRGlass
-    - SheetPlasma1
-    - SheetPGlass1
-    - SheetRPGlass1
-    - SheetPlasteel1
-    - SheetUranium1
-    - SheetUGlass1
-    - SheetRUGlass1
-    - IngotGold1
-    - IngotSilver1
-    - MaterialBananium1
-    - MaterialDiamond
 
 - type: entity
   parent: [BaseLathe, BaseMaterialSiloUtilizer]
@@ -1619,56 +1835,4 @@
   - type: MaterialStorage
     whitelist:
       tags:
-      - PrizeTicket
-
-- type: entity
-  id: MedicalBiofabricator
-  parent: [BaseLathe, BaseMaterialSiloUtilizer]
-  name: medical biofabricator
-  description: Produces organs and other organic matter that can be surgically grafted onto patients with biomass.
-  components:
-  - type: Sprite
-    sprite: _Shitmed/Structures/Machines/limbgrower.rsi
-    snapCardinals: true
-    layers:
-    - state: limbgrower_idleoff
-      map: ["enum.LatheVisualLayers.IsRunning"]
-  #    - state: limbgrower_idleoff
-  #      shader: unshaded
-  #      map: ["enum.PowerDeviceVisualLayers.Powered"]
-  #    - state: inserting
-  #      map: ["enum.MaterialStorageVisualLayers.Inserting"]
-  #    - state: panel
-  #      map: ["enum.WiresVisualLayers.MaintenancePanel"]
-  - type: Machine
-    board: MedicalBiofabMachineBoard
-  - type: MaterialStorage
-    whitelist:
-      tags:
-      - Sheet
-      - RawMaterial
-      - Ingot
-      - Wooden
-      - ClothMade
-      - Gauze
-      - Metal
-  - type: Lathe
-    idleState: limbgrower_idleoff
-    runningState: limbgrower_idleon
-    staticRecipes:
-    - SynthLiver
-    - SynthHeart
-    - SynthLungs
-    - SynthEyes
-    - SynthLeftLeg
-    - SynthRightLeg
-    - SynthLeftFoot
-    - SynthRightFoot
-    - SynthLeftArm
-    - SynthRightArm
-    - SynthLeftHand
-    - SynthRightHand
-  - type: EmagLatheRecipes
-    emagStaticRecipes:
-    - PizzaLeftArm
-    - PizzaRightArm
+        - PrizeTicket

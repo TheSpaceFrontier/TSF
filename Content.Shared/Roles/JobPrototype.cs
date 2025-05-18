@@ -1,4 +1,5 @@
 using Content.Shared.Access;
+using Content.Shared.Guidebook;
 using Content.Shared.Customization.Systems;
 using Content.Shared.Dataset;
 using Content.Shared.Players.PlayTimeTracking;
@@ -67,6 +68,13 @@ namespace Content.Shared.Roles
         public bool CanBeAntag { get; private set; } = true;
 
         /// <summary>
+        /// Used by Contractors to determine if a given job should have a passport
+        /// This should be disabled for Borgs and Station AI, for example.
+        /// </summary>
+        [DataField("canHavePassport")]
+        public bool CanHavePassport { get; private set; } = true;
+
+        /// <summary>
         /// Nyano/DV: For e.g. prisoners, they'll never use their latejoin spawner.
         /// </summary>
         [DataField("alwaysUseSpawner")]
@@ -107,6 +115,12 @@ namespace Content.Shared.Roles
         public ProtoId<LocalizedDatasetPrototype>? NameDataset;
 
         /// <summary>
+        ///   A list of requirements that when satisfied, add or replace from the base starting gear.
+        /// </summary>
+        [DataField("conditionalStartingGear")]
+        public List<ConditionalStartingGear>? ConditionalStartingGears { get; private set; }
+
+        /// <summary>
         /// Use this to spawn in as a non-humanoid (borg, test subject, etc.)
         /// Starting gear will be ignored.
         /// If you want to just add special attributes to a humanoid, use AddComponentSpecial instead.
@@ -119,6 +133,9 @@ namespace Content.Shared.Roles
 
         [DataField("special", serverOnly: true)]
         public JobSpecial[] Special { get; private set; } = Array.Empty<JobSpecial>();
+
+        [DataField("afterLoadoutSpecial", serverOnly: true)]
+        public JobSpecial[] AfterLoadoutSpecial { get; private set; } = [];
 
         [DataField("access")]
         public IReadOnlyCollection<ProtoId<AccessLevelPrototype>> Access { get; private set; } = Array.Empty<ProtoId<AccessLevelPrototype>>();
@@ -140,6 +157,34 @@ namespace Content.Shared.Roles
 
         [DataField]
         public bool ApplyTraits = true;
+
+        /// <summary>
+        /// Optional list of guides associated with this role. If the guides are opened, the first entry in this list
+        /// will be used to select the currently selected guidebook.
+        /// </summary>
+        [DataField]
+        public List<ProtoId<GuideEntryPrototype>>? Guides;
+
+    }
+
+    /// <summary>
+    ///   Starting gear that will only be applied upon satisfying requirements.
+    /// </summary>
+    [DataDefinition]
+    public sealed partial class ConditionalStartingGear
+    {
+        /// <summary>
+        ///   The requirements to check.
+        /// </summary>
+        [DataField(required: true)]
+        public List<CharacterRequirement> Requirements;
+
+        /// <summary>
+        ///   The starting gear to apply, replacing the equivalent slots.
+        /// </summary>
+        [DataField(required: true)]
+        public ProtoId<StartingGearPrototype> Id { get; private set; }
+
     }
 
     /// <summary>

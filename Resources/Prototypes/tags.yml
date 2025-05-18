@@ -113,6 +113,24 @@
   id: BorgHead
 
 - type: Tag
+  id: BorgLArm
+
+- type: Tag
+  id: BorgLLeg
+
+- type: Tag
+  id: BorgRArm
+
+- type: Tag
+  id: BorgRLeg
+
+- type: Tag
+  id: BorgTorso
+
+- type: Tag
+  id: BorgLeg
+
+- type: Tag
   id: BorgJanitorHead
 
 - type: Tag
@@ -123,9 +141,6 @@
 
 - type: Tag
   id: BorgJanitorTorso
-
-- type: Tag
-  id: BorgLeg
 
 - type: Tag
   id: BorgMedicalHead
@@ -188,6 +203,9 @@
   id: BorgModuleSyndicateAssault
 
 - type: Tag
+  id: Bot
+
+- type: Tag
   id: BorgServiceHead
 
 - type: Tag
@@ -219,6 +237,12 @@
 
 - type: Tag
   id: BoxCardboard
+
+- type: Tag
+  id: MaterialCardboard
+
+- type: Tag
+  id: MaterialPaper
 
 - type: Tag
   id: BoxHug
@@ -359,6 +383,9 @@
   id: CartridgeHeavyRifle
 
 - type: Tag
+  id: CartridgeMinigun
+
+- type: Tag
   id: CartridgeLightRifle
 
 - type: Tag
@@ -416,6 +443,9 @@
 
 - type: Tag
   id: ClothMade
+
+- type: Tag
+  id: ClothingHeadHelmetBasic
 
 - type: Tag
   id: ClownMask
@@ -596,6 +626,9 @@
 
 - type: Tag
   id: EmitterBolt
+
+- type: Tag
+  id: Envirohelm
 
 - type: Tag
   id: Enzyme
@@ -819,6 +852,9 @@
 - type: Tag
   id: IntercomElectronics
 
+- type: Tag # Goobstation
+  id: JanicartKeys
+
 - type: Tag
   id: JawsOfLife
 
@@ -883,6 +919,9 @@
 
 - type: Tag
   id: MagazineHeavyRifleBox
+
+- type: Tag
+  id: MagazineBoxRifleMinigun
 
 - type: Tag
   id: MagazineLightRifle
@@ -1008,7 +1047,13 @@
   id: Oneirophage
 
 - type: Tag
+  id: Oni
+
+- type: Tag
   id: Ore
+
+- type: Tag
+  id: Organ
 
 - type: Tag
   id: Packet
@@ -1035,10 +1080,16 @@
   id: PetWearable
 
 - type: Tag
+  id: HardHat
+
+- type: Tag
   id: MonkeyWearable
 
 - type: Tag
   id: Pickaxe
+
+- type: Tag
+  id: ItemPickaxe
 
 - type: Tag
   id: Pie
@@ -1068,7 +1119,16 @@
   id: PlantSampleTaker
 
 - type: Tag
+  id: PlantSampleTakerHighQuality
+
+- type: Tag
+  id: HydroponicsToolClippers
+
+- type: Tag
   id: PlasmaGlassShard
+
+- type: Tag
+  id: PlasmamanSafe
 
 - type: Tag
   id: Plastic
@@ -1078,6 +1138,12 @@
 
 - type: Tag
   id: PlushieGhost
+
+- type: Tag
+  id: SiliconMob
+
+- type: Tag
+  id: WeldbotFixableStructure
 
 - type: Tag
   id: PlushieSharkBlue
@@ -1138,6 +1204,9 @@
   id: RifleStock
 
 - type: Tag
+  id: Ring
+
+- type: Tag
   id: RipleyCentralControlModule
 
 - type: Tag
@@ -1163,6 +1232,9 @@
 
 - type: Tag
   id: RollingPin
+
+- type: Tag
+  id: RPD
 
 - type: Tag
   id: SaltShaker
@@ -1270,6 +1342,9 @@
   id: Steak
 
 - type: Tag
+  id: Stunbaton
+
+- type: Tag
   id: SubdermalImplant
 
 - type: Tag
@@ -1336,6 +1411,12 @@
   id: Truncheon
 
 - type: Tag
+  id: TurretCompatibleWeapon # Used in the construction of sentry turrets
+
+- type: Tag
+  id: TurretControlElectronics # Used in the construction of sentry turret control panels
+
+- type: Tag
   id: Unimplantable
 
 - type: Tag
@@ -1346,6 +1427,9 @@
 
 - type: Tag
   id: Vegetable
+
+- type: Tag # Goobstation
+  id: VehicleKey
 
 - type: Tag
   id: VimPilot
@@ -1369,6 +1453,9 @@
   id: WeaponAntiqueLaser
 
 - type: Tag
+  id: WeaponDisabler
+
+- type: Tag
   id: WeaponPistolCHIMPUpgradeKit
 
 - type: Tag
@@ -1376,6 +1463,9 @@
 
 - type: Tag
   id: WeldingMask
+
+- type: Tag
+  id: WeldingTool
 
 - type: Tag
   id: WetFloorSign
@@ -1422,6 +1512,9 @@
 - type: Tag
   id: WriteIgnoreStamps
 
+- type: Tag
+  id: FoodBowlBig
+
 # ALPHABETICAL
 
 - type: Tag
@@ -1438,6 +1531,9 @@
 
 - type: Tag
   id: SiliconEmotes
+
+- type: Tag
+  id: MagazineMarkOne
 
 - type: Tag
   id: UnathiEmotes

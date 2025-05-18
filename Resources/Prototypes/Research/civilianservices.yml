@@ -28,6 +28,7 @@
   - ExosuitFabricatorMachineCircuitboard
   - BorgModuleArtifact
   - BorgModuleAnomaly
+  - DroneElectronics
 
 - type: technology
   id: BasicElectronics
@@ -100,11 +101,12 @@
   - WeaponSprayNozzle
   - ClothingBackpackWaterTank
   - CargoTelepadMachineCircuitboard
-  - ClothingShoesBootsMagSci
+  - ClothingShoesBootsMag
   - ClothingShoesBootsMoon
   - CloningConsoleComputerCircuitboard
   - MedicalScannerMachineCircuitboard
   - MetempsychoticMachineCircuitboard
+  - EnvirosuitExtinguisherRefill
 
 - type: technology
   id: HONKMech

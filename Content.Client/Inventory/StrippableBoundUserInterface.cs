@@ -20,10 +20,8 @@ using Robust.Client.GameObjects;
 using Robust.Client.Player;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
-using Robust.Client.Player;
 using Robust.Shared.Input;
 using Robust.Shared.Map;
-using Robust.Shared.Prototypes;
 using static Content.Client.Inventory.ClientInventorySystem;
 using static Robust.Client.UserInterface.Control;
 
@@ -173,8 +171,7 @@ namespace Content.Client.Inventory
                 if (EntMan.TryGetComponent<CuffableComponent>(Owner, out var cuff) && _cuffable.GetAllCuffs(cuff).Contains(virt.BlockingEntity))
                     button.BlockedRect.MouseFilter = MouseFilterMode.Ignore;
             }
-
-            UpdateEntityIcon(button, hand.HeldEntity);
+            UpdateEntityIcon(button, EntMan.HasComponent<StripMenuHiddenComponent>(hand.HeldEntity) ? _virtualHiddenEntity : hand.HeldEntity);
             _strippingMenu!.HandsContainer.AddChild(button);
         }
 
@@ -212,6 +209,10 @@ namespace Content.Client.Inventory
                 && !(EntMan.TryGetComponent<ThievingComponent>(PlayerManager.LocalEntity, out var thiefComponent)
                 && thiefComponent.IgnoreStripHidden))
                 entity = _virtualHiddenEntity;
+
+            if (entity != null && EntMan.HasComponent<StripMenuHiddenComponent>(entity))
+                entity = _virtualHiddenEntity;
+
 
             var button = new SlotButton(new SlotData(slotDef, container));
             button.Pressed += SlotPressed;

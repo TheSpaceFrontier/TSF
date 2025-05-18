@@ -7,9 +7,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
+using Content.Shared._EE.Contractors.Prototypes;
 using Content.Shared.Database;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager.Attributes;
 
 
@@ -389,9 +391,15 @@ namespace Content.Server.Database
         [Column("char_name")] public string CharacterName { get; set; } = null!;
         public string FlavorText { get; set; } = null!;
         public string CustomSpecieName { get; set; } = null!;
+        public string Nationality { get; set; } = null!;
+        public string Employer { get; set; } = null!;
+        public string Lifepath { get; set; } = null!;
         public int Age { get; set; }
         public string Sex { get; set; } = null!;
         public string Gender { get; set; } = null!;
+        public string? DisplayPronouns { get; set; }
+        public string? StationAiName { get; set; }
+        public string? CyborgName { get; set; }
         public string Species { get; set; } = null!;
         public float Height { get; set; } = 1f;
         public float Width { get; set; } = 1f;
@@ -898,7 +906,7 @@ namespace Content.Server.Database
         Panic = 3,
         /*
          * TODO: Remove baby jail code once a more mature gateway process is established. This code is only being issued as a stopgap to help with potential tiding in the immediate future.
-         * 
+         *
          * If baby jail is removed, please reserve this value for as long as can reasonably be done to prevent causing ambiguity in connection denial reasons.
          * Reservation by commenting out the value is likely sufficient for this purpose, but may impact projects which depend on SS14 like SS14.Admin.
          */
