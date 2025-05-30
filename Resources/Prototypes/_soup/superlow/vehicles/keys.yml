@@ -1,0 +1,12 @@
+- type: entity
+  parent: BaseKey
+  id: VehicleKeyMotorbike1
+  name: Motorbike1 keys
+  components:
+  - type: Sprite
+    sprite: _soup/Motorbike/motorbike1.rsi
+    state: keys
+  - type: Tag
+    tags:
+    - VehicleKey
+    - MotorbikeKeys1

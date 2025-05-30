@@ -1,0 +1,28 @@
+- type: entity
+  id: VehicleMotorbike1
+  parent: BaseVehicle
+  name: Motorbike
+  components:
+  - type: Sprite
+    sprite: _soup/Motorbike/motorbike1.rsi
+    state: vehicle
+    noRot: true
+  - type: Vehicle
+    hornSound:
+      collection: BikeHorn
+      params:
+        variation: 0.125
+    renderOver: North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest
+  - type: ItemSlots
+    slots:
+      key_slot:
+        name: vehicle-slot-component-slot-name-keys
+        whitelist:
+          requireAll: true
+          tags:
+          - VehicleKey
+          - MotorbikeKeys1
+        insertSound:
+          path: /Audio/Effects/Vehicle/vehiclestartup.ogg
+          params:
+            volume: -3
